@@ -1,5 +1,6 @@
 #include "StageScene.h"
 #include "StageData.h"
+#include "NumberBar.h"
 #include "Const.h"
 
 USING_NS_CC;
@@ -88,9 +89,10 @@ bool StageScene::loadStageData(const StageData* pData) {
 	auto cache = SpriteFrameCache::getInstance();
 	cache->addSpriteFramesWithFile(pData->plt_file, pData->res_file);
 
-	auto sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(FRAME_NAME_1));
-	sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-	this->addChild(sprite, 0);
+	auto bar = NumberBar::create();
+	bar->attachSprites(pData->numbers, cache);
+	bar->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	this->addChild(bar, 0);
 
 	return true;
 }
