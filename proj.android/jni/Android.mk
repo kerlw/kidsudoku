@@ -13,7 +13,8 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := kidsudoku_cpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/StageScene.cpp	\
-                   ../../Classes/StageData.cpp
+                   ../../Classes/StageData.cpp \
+                   ../../Classes/NumberBar.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
