@@ -14,7 +14,8 @@ LOCAL_SRC_FILES := kidsudoku_cpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/StageScene.cpp	\
                    ../../Classes/StageData.cpp \
-                   ../../Classes/NumberBar.cpp
+                   ../../Classes/NumberBar.cpp \
+                   ../../Classes/SudokuBox.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

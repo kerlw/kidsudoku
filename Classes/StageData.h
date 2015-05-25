@@ -14,10 +14,17 @@ class StageData {
 public:
 	std::string plt_file;
 	std::string res_file;
+	float scale;
 	/** count of number */
 	int numbers;
-	/** count of cell*/
-	int cells;
+
+	int rows_per_grid;
+	int cols_per_grid;
+
+	int grids_in_row;
+	int grids_in_col;
+
+	int* cell_data;
 };
 
 #endif /* STAGEDATA_H_ */

@@ -8,6 +8,10 @@
 #ifndef CONST_H_
 #define CONST_H_
 
-static const char* const FRAME_NAME[] = { "1.png", "2.png", "3.png" };
+static const char* const FRAME_NAME[] = {
+		"1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png"
+	};
+
+static const int CELL_SIZE = 140;
 
 #endif /* CONST_H_ */

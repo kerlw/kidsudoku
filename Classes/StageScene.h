@@ -3,11 +3,18 @@
 
 #include "cocos2d.h"
 
-class StageData;
+USING_NS_CC;
 
-class StageScene : public cocos2d::Layer
+class StageData;
+class NumberBar;
+class SudokuBox;
+
+class StageScene : public Layer
 {
 public:
+	StageScene();
+	virtual ~StageScene();
+
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 
@@ -19,11 +26,21 @@ public:
     
     bool loadStageData(const StageData* pData);
 
+    virtual bool onTouchBegan(Touch *touch, Event *unused_event) override;
+	virtual void onTouchMoved(Touch *touch, Event *unused_event) override;
+	virtual void onTouchEnded(Touch *touch, Event *unused_event) override;
+	virtual void onTouchCancelled(Touch *touch, Event *unused_event) override;
+
     // implement the "static create()" method manually
     CREATE_FUNC(StageScene);
 
 protected:
-//    Text
+    SudokuBox* m_pBox;
+    NumberBar* m_pBar;
+    Sprite*	m_pSelectedSprite;
+    int m_iSelectedIndex;
+
+    pthread_mutex_t m_mutexSelect;
 };
 
 #endif // __STAGE_SCENE_H__

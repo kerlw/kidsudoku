@@ -9,9 +9,12 @@
 #define NUMBERBAR_H_
 
 #include "cocos2d.h"
-#include "ui/UIHBox.h"
+#include <vector>
+#include "ui/UILayout.h"
 
-class NumberBar : public cocos2d::ui::HBox {
+USING_NS_CC;
+
+class NumberBar : public ui::Layout {
 public:
 	NumberBar();
 	virtual ~NumberBar();
@@ -21,14 +24,16 @@ public:
      */
 	static NumberBar* create();
 
-	void attachSprites(int number, cocos2d::SpriteFrameCache* cache);
+	void attachSprites(int number, SpriteFrameCache* cache);
+	int findSpriteIndexAtLocation(Vec2 location);
 
 CC_CONSTRUCTOR_ACCESS:
-//	 virtual bool init() override;
+	 virtual bool init() override;
+
+	std::vector<Rect> m_rectSprites;
 
 private:
-
-
+	static const float SPRITE_GAP;
 };
 
 #endif /* NUMBERBAR_H_ */
