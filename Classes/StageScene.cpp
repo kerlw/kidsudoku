@@ -39,8 +39,7 @@ Scene* StageScene::createScene()
 StageScene::StageScene() :
 		m_pBar(nullptr),
 		m_pSelectedSprite(nullptr),
-		m_iSelectedIndex(-1),
-		m_mutexSelect(PTHREAD_MUTEX_INITIALIZER)
+		m_iSelectedIndex(-1)
 {
 //	this->setTouchEnabled(true);
 	auto listener = EventListenerTouchOneByOne::create();
@@ -135,10 +134,9 @@ bool StageScene::loadStageData(const StageData* pData) {
 }
 
 bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
-	pthread_mutex_lock(&m_mutexSelect);
+	AutoLock lock(m_lock);
 	//if has a sprite selected, ignore this touch event
 	if (m_pSelectedSprite) {
-		pthread_mutex_unlock(&m_mutexSelect);
 		return false;
 	}
 
@@ -146,7 +144,6 @@ bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
 	if (m_pBar) {
 		int index = m_pBar->findSpriteIndexAtLocation(m_pBar->convertToNodeSpace(location));
 		if (index < 0) {
-			pthread_mutex_unlock(&m_mutexSelect);
 			return false;
 		}
 
@@ -160,20 +157,18 @@ bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
 		this->addChild(m_pSelectedSprite, 0);
 	}
 
-	pthread_mutex_unlock(&m_mutexSelect);
 	return true;
 }
 
 void StageScene::onTouchMoved(Touch *touch, Event *unused_event) {
-	pthread_mutex_lock(&m_mutexSelect);
+	AutoLock lock(m_lock);
 	//touch moved, refresh the position of selected sprite.
 	if (m_pSelectedSprite)
 		m_pSelectedSprite->setPosition(touch->getLocation());
-	pthread_mutex_unlock(&m_mutexSelect);
 }
 
 void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
-	pthread_mutex_lock(&m_mutexSelect);
+	AutoLock lock(m_lock);
 	if (m_pSelectedSprite && m_pBox) {
 		//touch up, insert a item in SudokuBox in need.
 		m_pBox->onItemDragedAtPoint(m_pBox->convertToNodeSpace(touch->getLocation()), m_iSelectedIndex);
@@ -182,17 +177,14 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 		m_pSelectedSprite = nullptr;
 		m_iSelectedIndex = -1;
 	}
-	pthread_mutex_unlock(&m_mutexSelect);
 }
 
 void StageScene::onTouchCancelled(Touch *touch, Event *unused_event) {
-	pthread_mutex_lock(&m_mutexSelect);
+	AutoLock lock(m_lock);
 	if (m_pSelectedSprite) {
 		//remove dragable sprite and clear the selected sprite index.
 		this->removeChild(m_pSelectedSprite);
 		m_pSelectedSprite = nullptr;
 		m_iSelectedIndex = -1;
 	}
-	pthread_mutex_unlock(&m_mutexSelect);
 }
-

@@ -2,6 +2,7 @@
 #define __STAGE_SCENE_H__
 
 #include "cocos2d.h"
+#include "Lock.h"
 
 USING_NS_CC;
 
@@ -40,7 +41,7 @@ protected:
     Sprite*	m_pSelectedSprite;
     int m_iSelectedIndex;
 
-    pthread_mutex_t m_mutexSelect;
+    Lock m_lock;
 };
 
 #endif // __STAGE_SCENE_H__
