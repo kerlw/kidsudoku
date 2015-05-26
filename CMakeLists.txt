@@ -115,13 +115,24 @@ include_directories(
 
 set(GAME_SRC
   Classes/AppDelegate.cpp
-  Classes/HelloWorldScene.cpp
+  Classes/GameController.cpp
+  Classes/NumberBar.cpp
+  Classes/StageData.cpp
+  Classes/StageScene.cpp 
+  Classes/SudokuBox.cpp 
+  Classes/VictoryLayer.cpp 
   ${PLATFORM_SPECIFIC_SRC}
 )
 
 set(GAME_HEADERS
   Classes/AppDelegate.h
-  Classes/HelloWorldScene.h
+  Classes/Const.h 
+  Classes/Lock.h 
+  Classes/NumberBar.h 
+  Classes/GameController.h 
+  Classes/StageData.h 
+  Classes/SudokuBox.h 
+  Classes/VictoryLayer.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "StageData.h"
 #include "ui/UILayout.h"
+#include <vector>
 
 USING_NS_CC;
 
@@ -24,6 +25,9 @@ public:
 	bool initWithStageData(const StageData& data);
 	void onItemDragedAtPoint(const Vec2& point, int numberIndex);
 
+	bool checkResult();
+	bool checkData(const std::vector<int>& array);
+
 CC_CONSTRUCTOR_ACCESS:
 	 virtual bool init() override;
 	 bool containsPoint(const Vec2& point) const;
@@ -32,7 +36,7 @@ CC_CONSTRUCTOR_ACCESS:
 	 int* m_pData;
 	 int m_iCols;
 	 int m_iRows;
-
+	 StageData m_stagedata;
 	 std::map<int, Sprite*> m_mapSprites;
 };
 

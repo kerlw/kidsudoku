@@ -25,6 +25,22 @@ public:
 	int grids_in_col;
 
 	int* cell_data;
+
+	virtual ~StageData() {}
+	StageData& operator=(const StageData& dst);
 };
+
+inline StageData& StageData::operator =(const StageData& dst) {
+	this->plt_file = dst.plt_file;
+	this->res_file = dst.res_file;
+	this->scale = dst.scale;
+	this->numbers = dst.numbers;
+	this->rows_per_grid = dst.rows_per_grid;
+	this->cols_per_grid = dst.cols_per_grid;
+	this->grids_in_col = dst.grids_in_col;
+	this->grids_in_row = dst.grids_in_row;
+	this->cell_data = dst.cell_data;
+	return *this;
+}
 
 #endif /* STAGEDATA_H_ */

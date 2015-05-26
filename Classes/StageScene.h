@@ -32,6 +32,9 @@ public:
 	virtual void onTouchEnded(Touch *touch, Event *unused_event) override;
 	virtual void onTouchCancelled(Touch *touch, Event *unused_event) override;
 
+	/** show the victory scene */
+	void showVictoryLayer();
+
     // implement the "static create()" method manually
     CREATE_FUNC(StageScene);
 

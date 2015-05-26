@@ -4,6 +4,8 @@
 #include "SudokuBox.h"
 #include "Const.h"
 
+#include "VictoryLayer.h"
+
 USING_NS_CC;
 
 Scene* StageScene::createScene()
@@ -26,6 +28,17 @@ Scene* StageScene::createScene()
     data.grids_in_col = 1;
     data.grids_in_row = 2;
     data.cell_data = cell_data;
+//    int cell_data[] = {1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1};
+//    StageData data;
+//    data.plt_file = "animals.plist";
+//    data.res_file = "animals.png";
+//    data.numbers = 4;
+//    data.scale = 1.0f;
+//    data.rows_per_grid = 2;
+//    data.cols_per_grid = 2;
+//    data.grids_in_col = 2;
+//    data.grids_in_row = 2;
+//    data.cell_data = cell_data;
 
     layer->loadStageData(&data);
 
@@ -67,7 +80,7 @@ bool StageScene::init()
 
     auto director = Director::getInstance();
 	auto pView = director->getOpenGLView();
-	pView->setDesignResolutionSize(1280, 720, kResolutionShowAll);
+	pView->setDesignResolutionSize(1280, 720, ResolutionPolicy::SHOW_ALL);
 	director->setOpenGLView(pView);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -91,6 +104,7 @@ bool StageScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+    log("StageScene init done");
     return true;
 }
 
@@ -173,6 +187,10 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 		//touch up, insert a item in SudokuBox in need.
 		m_pBox->onItemDragedAtPoint(m_pBox->convertToNodeSpace(touch->getLocation()), m_iSelectedIndex);
 
+		//check if this stage finished
+		if (m_pBox->checkResult())
+			this->showVictoryLayer();
+
 		this->removeChild(m_pSelectedSprite);
 		m_pSelectedSprite = nullptr;
 		m_iSelectedIndex = -1;
@@ -187,4 +205,14 @@ void StageScene::onTouchCancelled(Touch *touch, Event *unused_event) {
 		m_pSelectedSprite = nullptr;
 		m_iSelectedIndex = -1;
 	}
+}
+
+void StageScene::showVictoryLayer() {
+	auto director = Director::getInstance();
+	Size visibleSize = director->getVisibleSize();
+	Vec2 origin = director->getVisibleOrigin();
+
+    auto layer = VictoryLayer::create();
+    layer->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    this->addChild(layer, 2);
 }
