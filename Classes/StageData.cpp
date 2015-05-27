@@ -69,7 +69,18 @@ bool StageDataManager::init() {
 	data.cols_per_grid = 2;
 	data.grids_in_col = 2;
 	data.grids_in_row = 1;
-    data.cell_data = new int[8] {1, 0, 0, 0, 4, 3, 0, 2 };
+    data.cell_data = new int[8] {1, 0, 0, 4, 4, 3, 0, 2};
+    m_vctData.push_back(data);
+
+	data.plt_file = "fruits.plist";
+	data.res_file = "fruits.png";
+	data.numbers = 4;
+	data.scale = 1.0f;
+	data.rows_per_grid = 2;
+	data.cols_per_grid = 2;
+	data.grids_in_col = 2;
+	data.grids_in_row = 1;
+    data.cell_data = new int[8] {1, 0, 0, 2, 0, 3, 1, 0};
     m_vctData.push_back(data);
 
 	data.plt_file = "fruits.plist";

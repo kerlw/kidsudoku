@@ -153,16 +153,15 @@ bool SudokuBox::checkResult() {
 		for (int grid = 0; grid < count; grid++) {
 			index_array.clear();
 			int start_col = (grid % m_stagedata.grids_in_col) * m_stagedata.cols_per_grid;
-			int start_row = (grid / m_stagedata.grids_in_row) * m_stagedata.rows_per_grid;
+			int start_row = (grid / m_stagedata.grids_in_col) * m_stagedata.rows_per_grid;
 			int start = start_row * m_iCols + start_col;
 			for (int row = 0; row < m_stagedata.rows_per_grid; row++) {
 				for (int col = 0; col < m_stagedata.cols_per_grid; col++) {
 					index_array.push_back(start + row * m_iCols + col);
 				}
-
-				if (!checkData(index_array))
-					return false;
 			}
+			if (!checkData(index_array))
+				return false;
 		}
 	}
 //	for (int row = 0; row < m_i)
