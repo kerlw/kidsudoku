@@ -43,20 +43,9 @@ void GameController::nextStage() {
     // 'layer' is an autorelease object
     auto layer = StageScene::create();
 
-    //TODO stage data should load from file
-    int cell_data[] = {1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1};
-    StageData data;
-    data.plt_file = "animals.plist";
-    data.res_file = "animals.png";
-    data.numbers = 4;
-    data.scale = 1.0f;
-    data.rows_per_grid = 2;
-    data.cols_per_grid = 2;
-    data.grids_in_col = 2;
-    data.grids_in_row = 2;
-    data.cell_data = cell_data;
-
-    layer->loadStageData(&data);
+    auto data = StageDataManager::getInstance()->getNextStageData();
+    if (data)
+    	layer->loadStageData(data);
 
     // add layer as a child to scene
     scene->addChild(layer);

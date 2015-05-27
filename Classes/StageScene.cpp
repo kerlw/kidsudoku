@@ -17,30 +17,9 @@ Scene* StageScene::createScene()
     auto layer = StageScene::create();
 
     //TODO stage data should load from file
-    int cell_data[] = {1, 0, 2, 3, 0, 0};
-    StageData data;
-    data.plt_file = "animals.plist";
-    data.res_file = "animals.png";
-    data.numbers = 3;
-    data.scale = 1.0f;
-    data.rows_per_grid = 1;
-    data.cols_per_grid = 3;
-    data.grids_in_col = 1;
-    data.grids_in_row = 2;
-    data.cell_data = cell_data;
-//    int cell_data[] = {1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1};
-//    StageData data;
-//    data.plt_file = "animals.plist";
-//    data.res_file = "animals.png";
-//    data.numbers = 4;
-//    data.scale = 1.0f;
-//    data.rows_per_grid = 2;
-//    data.cols_per_grid = 2;
-//    data.grids_in_col = 2;
-//    data.grids_in_row = 2;
-//    data.cell_data = cell_data;
 
-    layer->loadStageData(&data);
+    auto data = StageDataManager::getInstance()->getNextStageData();
+    layer->loadStageData(data);
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -130,6 +109,7 @@ bool StageScene::loadStageData(const StageData* pData) {
 	log("visibleSize is %f, %f, origin is %f, %f", visibleSize.width, visibleSize.height, origin.x, origin.y);
 
 	auto cache = SpriteFrameCache::getInstance();
+	cache->removeSpriteFrames();
 	cache->addSpriteFramesWithFile(pData->plt_file, pData->res_file);
 
 	//add Number Bar to scene

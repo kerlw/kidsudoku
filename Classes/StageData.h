@@ -8,7 +8,12 @@
 #ifndef STAGEDATA_H_
 #define STAGEDATA_H_
 
+#include "cocos2d.h"
+
 #include <string>
+#include <vector>
+
+USING_NS_CC;
 
 class StageData {
 public:
@@ -42,5 +47,21 @@ inline StageData& StageData::operator =(const StageData& dst) {
 	this->cell_data = dst.cell_data;
 	return *this;
 }
+
+class StageDataManager : public Ref {
+public:
+	virtual ~StageDataManager();
+	static StageDataManager* getInstance();
+
+	bool init();
+	StageData* getNextStageData();
+
+protected:
+	std::vector<StageData> m_vctData;
+	int m_iCurrentIndex;
+
+private:
+	StageDataManager();
+};
 
 #endif /* STAGEDATA_H_ */
