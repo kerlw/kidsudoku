@@ -59,7 +59,37 @@
     -->
     <import file="custom_rules.xml" optional="true" />
 
-    <!-- Import the actual build file.
+    <target name="-pre-build" xmlns:if="ant:if">
+
+        <echo>Replacing strings ...</echo>
+
+        <tstamp>
+            <format pattern="yyMMddHH" property="DSTAMP" />
+        </tstamp>
+
+        <!-- versioncode -->
+        <echo if:set="vcode" >versionCode set to ${vcode}</echo>
+        <replaceregexp
+            byline="false"
+            encoding="utf-8"
+            file="AndroidManifest.xml"
+            match="android:versionCode=&quot;(.*)&quot;"
+            replace="android:versionCode=&quot;${vcode}&quot;"
+            if:set="vcode" />
+
+        <!-- versionname -->
+
+        <echo if:set="vname" >versionName set to ${vnname}</echo>
+        <replaceregexp
+            byline="false"
+            encoding="utf-8"
+            file="AndroidManifest.xml"
+            match="android:versionName=&quot;(.*)&quot;"
+            replace="android:versionName=&quot;${vname}&quot;"
+            if:set="vname" />
+    </target>
+    <!--
+     Import the actual build file.
 
          To customize existing targets, there are two options:
          - Customize only one target:
@@ -77,6 +107,7 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
+
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 

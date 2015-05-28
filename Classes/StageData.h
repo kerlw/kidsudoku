@@ -19,7 +19,6 @@ class StageData {
 public:
 	std::string plt_file;
 	std::string res_file;
-	float scale;
 	/** count of number */
 	int numbers;
 
@@ -35,18 +34,17 @@ public:
 	StageData& operator=(const StageData& dst);
 };
 
-inline StageData& StageData::operator =(const StageData& dst) {
-	this->plt_file = dst.plt_file;
-	this->res_file = dst.res_file;
-	this->scale = dst.scale;
-	this->numbers = dst.numbers;
-	this->rows_per_grid = dst.rows_per_grid;
-	this->cols_per_grid = dst.cols_per_grid;
-	this->grids_in_col = dst.grids_in_col;
-	this->grids_in_row = dst.grids_in_row;
-	this->cell_data = dst.cell_data;
-	return *this;
-}
+/**
+ * Helper class for StageData
+ */
+class StageDataHelper {
+public:
+	//TODO change the design resolution to support more resolutions.
+//	static void setDesignResolution(float width, float height);
+
+	/** calculate the stage scene's scale ratio from StageData */
+	static float calcScaleRatio(const StageData& data);
+};
 
 class StageDataManager : public Ref {
 public:
@@ -63,5 +61,17 @@ protected:
 private:
 	StageDataManager();
 };
+
+inline StageData& StageData::operator =(const StageData& dst) {
+	this->plt_file = dst.plt_file;
+	this->res_file = dst.res_file;
+	this->numbers = dst.numbers;
+	this->rows_per_grid = dst.rows_per_grid;
+	this->cols_per_grid = dst.cols_per_grid;
+	this->grids_in_col = dst.grids_in_col;
+	this->grids_in_row = dst.grids_in_row;
+	this->cell_data = dst.cell_data;
+	return *this;
+}
 
 #endif /* STAGEDATA_H_ */

@@ -6,8 +6,20 @@
  */
 
 #include "StageData.h"
+#include "Const.h"
 
 static StageDataManager* s_pStageDataManager;
+
+float StageDataHelper::calcScaleRatio(const StageData& data) {
+	int rows = data.rows_per_grid * data.grids_in_row;
+	CCASSERT(rows > 0 && rows < 9, "Invalid rows calculated from stage data");
+	if (rows <= 4) {
+		return 1.0f;
+	} else if (rows <= 9) {
+		return 2.0f;
+	}
+	return 1.0f;
+}
 
 StageDataManager::StageDataManager()
 	: m_iCurrentIndex(-1) {
@@ -31,7 +43,6 @@ bool StageDataManager::init() {
     data.plt_file = "animals.plist";
     data.res_file = "animals.png";
     data.numbers = 3;
-    data.scale = 1.0f;
     data.rows_per_grid = 1;
     data.cols_per_grid = 3;
     data.grids_in_col = 1;
@@ -42,7 +53,6 @@ bool StageDataManager::init() {
     data.plt_file = "fruits.plist";
     data.res_file = "fruits.png";
     data.numbers = 3;
-    data.scale = 1.0f;
     data.rows_per_grid = 1;
     data.cols_per_grid = 3;
     data.grids_in_col = 1;
@@ -53,7 +63,6 @@ bool StageDataManager::init() {
     data.plt_file = "animals.plist";
     data.res_file = "animals.png";
     data.numbers = 3;
-    data.scale = 1.0f;
     data.rows_per_grid = 1;
     data.cols_per_grid = 3;
     data.grids_in_col = 1;
@@ -64,7 +73,6 @@ bool StageDataManager::init() {
 	data.plt_file = "fruits.plist";
 	data.res_file = "fruits.png";
 	data.numbers = 4;
-	data.scale = 1.0f;
 	data.rows_per_grid = 2;
 	data.cols_per_grid = 2;
 	data.grids_in_col = 2;
@@ -75,7 +83,6 @@ bool StageDataManager::init() {
 	data.plt_file = "fruits.plist";
 	data.res_file = "fruits.png";
 	data.numbers = 4;
-	data.scale = 1.0f;
 	data.rows_per_grid = 2;
 	data.cols_per_grid = 2;
 	data.grids_in_col = 2;
@@ -86,7 +93,6 @@ bool StageDataManager::init() {
 	data.plt_file = "fruits.plist";
 	data.res_file = "fruits.png";
 	data.numbers = 4;
-	data.scale = 1.0f;
 	data.rows_per_grid = 2;
 	data.cols_per_grid = 2;
 	data.grids_in_col = 2;

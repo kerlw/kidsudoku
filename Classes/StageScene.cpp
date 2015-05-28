@@ -102,7 +102,7 @@ bool StageScene::loadStageData(const StageData* pData) {
 		return false;
 
 	auto director = Director::getInstance();
-	director->setContentScaleFactor(pData->scale);
+	director->setContentScaleFactor(StageDataHelper::calcScaleRatio(*pData));
 
 	Size visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();

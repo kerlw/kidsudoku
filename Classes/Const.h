@@ -14,4 +14,8 @@ static const char* const FRAME_NAME[] = {
 
 static const int CELL_SIZE = 140;
 
+static const float RESOLUTION_WIDTH = 1280.0f;
+
+static const float RESOLUTION_HEIGHT = 720.0f;
+
 #endif /* CONST_H_ */
