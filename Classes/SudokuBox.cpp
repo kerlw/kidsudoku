@@ -123,6 +123,10 @@ void SudokuBox::onItemDragedAtPoint(const Vec2& point, int numberIndex) {
 }
 
 bool SudokuBox::checkResult() {
+	bool ret = true;
+	//XXX optimization: only check the error index and changed index.
+	m_setErrors.clear();
+
 	std::vector<int> index_array;
 	//1.check each row
 	for (int row = 0; row < m_iRows; row++) {
@@ -130,9 +134,7 @@ bool SudokuBox::checkResult() {
 		for (int col = 0; col < m_iCols; col++) {
 			index_array.push_back(m_iCols * row + col);
 		}
-		//TODO check out all error, and give tips, should not return from here.
-		if (!checkData(index_array))
-			return false;
+		ret &= checkData(index_array);
 	}
 
 	//2.check each column
@@ -142,8 +144,7 @@ bool SudokuBox::checkResult() {
 			index_array.push_back(m_iCols * row + col);
 		}
 
-		if (!checkData(index_array))
-			return false;
+		ret &= checkData(index_array);
 	}
 
 	//3.check each grid
@@ -160,11 +161,9 @@ bool SudokuBox::checkResult() {
 					index_array.push_back(start + row * m_iCols + col);
 				}
 			}
-			if (!checkData(index_array))
-				return false;
+			ret &= checkData(index_array);
 		}
 	}
-//	for (int row = 0; row < m_i)
 
 	//4.check if each cell filled with valid number
 	for (int index = 0; index < m_iRows*m_iCols; index++) {
@@ -172,20 +171,61 @@ bool SudokuBox::checkResult() {
 			return false;
 	}
 
-	return true;
+	return ret;
 }
 
 bool SudokuBox::checkData(const std::vector<int>& array) {
-	std::vector<int>::const_iterator it = array.begin();
-	int mask = 0;
+	// value -> index map
+	std::map<int, int> mapIndex;
+
+	bool ret = true;
+	auto it = array.begin();
 	for (;it != array.end(); ++it) {
 		int value = m_pData[*it];
 		if (value > 0) {
-			int bit = 1 << (value - 1);
-			if ((mask & bit) == bit)
-				return false;
-			mask |= bit;
+			//if the value has already been mapped in the map, that means error.
+			auto mit = mapIndex.find(value);
+			if (mit != mapIndex.end()) {
+				//add these indexes to error index set.
+				m_setErrors.insert(*it);
+				m_setErrors.insert(mit->second);
+				ret = false;
+			} else
+				mapIndex[value] = *it;
 		}
 	}
-	return true;
+	return ret;
+}
+
+void SudokuBox::refreshErrorTipsLayer() {
+	auto it = m_setErrors.begin();
+	for (; it != m_setErrors.end(); ++it) {
+		int pos = *it;
+		if (m_mapErrorMask.find(pos) == m_mapErrorMask.end()) {
+			//add error mask over the sprite
+			auto mask = Sprite::createWithSpriteFrame(
+				SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[ERROR_MASK_INDEX])
+				);
+			mask->ignoreAnchorPointForPosition(false);
+			mask->setAnchorPoint(Vec2(0, 1));
+			mask->setPosition(Vec2((pos % m_iCols) * CELL_SIZE, (m_iRows - pos / m_iCols) * CELL_SIZE));
+			this->addChild(mask, 1);
+
+			//add the mask to the position-mask map
+			m_mapErrorMask[pos] = mask;
+		}
+	}
+
+	//remove those mask which is not error any longer.
+	auto mit = m_mapErrorMask.begin();
+	while (mit != m_mapErrorMask.end()) {
+		if (m_setErrors.find(mit->first) == m_setErrors.end()) {
+			this->removeChild(mit->second, true);
+			auto tmp = mit;
+			mit++;
+			m_mapErrorMask.erase(tmp);
+		} else {
+			mit++;
+		}
+	}
 }

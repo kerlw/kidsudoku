@@ -168,8 +168,11 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 		m_pBox->onItemDragedAtPoint(m_pBox->convertToNodeSpace(touch->getLocation()), m_iSelectedIndex);
 
 		//check if this stage finished
-		if (m_pBox->checkResult())
+		if (m_pBox->checkResult()) {
 			this->showVictoryLayer();
+		} else {
+			m_pBox->refreshErrorTipsLayer();
+		}
 
 		this->removeChild(m_pSelectedSprite);
 		m_pSelectedSprite = nullptr;
