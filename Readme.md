@@ -1,6 +1,6 @@
 ##KidSudoku 儿童数独##
 
-I'm a father of a 4-years old lovely girl.
+I'm a father of a  lovely 4-years old girl.
 I wanna give her a gift -- a sudoku game, but she is too young to play the real sudoku, so I wanna make a simple one.
 
 我是一个父亲，我有一个可爱的女儿，四岁了。
@@ -18,6 +18,30 @@ I wanna give her a gift -- a sudoku game, but she is too young to play the real 
 * fruit/animal icons replace numbers 水果/动物图标替换数字
 * make error hints easier to see and understand 让错误提示更显眼更易懂
 
+###Road map 开发规划
+1. a basicaly playable version with some internal stage 完成一个基本可玩的版本，内置一些关卡
+	* 【done】make some stage data internal 内置一些关卡数据
+	* 【done】make the game continuable, stage by stage 让游戏一关关的延续
+	* 【doning】point out the error 给出错误提示
+	* 【TODO】load campaign or stage data from file 从文件加载战役、关卡数据
++ an editor for the game 完成一个编辑器
+	* 【doing】edit single stage at first 从编辑单个场景开始着手
+	* 【TODO】edit campaigns which is made up by stages 编辑由stage组成的战役
+
+###How to compile 如何编译代码
+*  cocos2d-x 3.6 needed 需要cocos2d-x 3.6
+* at the root directory of the source code, run 在代码根目录运行
+
+> cocos run -p linux
+
+for android: 编译目标android平台的话则运行
+
+> cocos run -p android -j4
+
+* If compile for android, android sdk/android ndk needed 如果是编译android版本，需要android的sdk和ndk
+* set enviroment  variables according to the error tips 根据错误提示设定环境变量
+
+*see also guid from cocos2d.org*
 
 ###Contact me 联系我
 If you are a programmer and have interest in this project, mail me!  Any help would be appreciated.
