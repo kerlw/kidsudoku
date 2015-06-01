@@ -22,8 +22,9 @@ I wanna give her a gift -- a sudoku game, but she is too young to play the real 
 1. a basicaly playable version with some internal stage 完成一个基本可玩的版本，内置一些关卡
 	* 【done】make some stage data internal 内置一些关卡数据
 	* 【done】make the game continuable, stage by stage 让游戏一关关的延续
-	* 【doning】point out the error 给出错误提示
+	* 【done】point out the error 给出错误提示
 	* 【TODO】load campaign or stage data from file 从文件加载战役、关卡数据
+	* 【TODO】add bacground images to each cell 每个格子加入背景
 + an editor for the game 完成一个编辑器
 	* 【doing】edit single stage at first 从编辑单个场景开始着手
 	* 【TODO】edit campaigns which is made up by stages 编辑由stage组成的战役
