@@ -27,6 +27,18 @@ THE SOFTWARE.
 package org.papalegend.kidsudoku;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxHelper;
+
+import android.os.Bundle;
+import android.os.Environment;
 
 public class AppActivity extends Cocos2dxActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+		Cocos2dxHelper.setStringForKey("external_data_path", path);
+	}
 }

@@ -46,6 +46,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
+    std::string path = UserDefault::getInstance()->getStringForKey(KEYNAME_EXTERNAL_DATA_PATH);
+    log("external data path is %s", path.c_str());
+
     // create a scene. it's an autorelease object
     auto scene = StageScene::createScene();
 

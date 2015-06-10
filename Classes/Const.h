@@ -8,6 +8,8 @@
 #ifndef CONST_H_
 #define CONST_H_
 
+static const char* KEYNAME_EXTERNAL_DATA_PATH = "external_data_path";
+
 static const char* const FRAME_NAME[] = {
 		"1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "error_mask.png"
 	};
