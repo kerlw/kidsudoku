@@ -8,15 +8,16 @@
 #include "GameController.h"
 #include "StageScene.h"
 #include "StageData.h"
+#include "CampaignData.h"
 
 static GameController* s_pGameController;
 
-GameController::~GameController() {
-	// TODO Auto-generated destructor stub
+GameController::GameController()
+	: m_pCampaign(nullptr) {
 }
-GameController::GameController() {
-	// TODO Auto-generated constructor stub
-
+GameController::~GameController() {
+	if (m_pCampaign)
+		delete m_pCampaign;
 }
 
 GameController* GameController::getInstance() {
@@ -37,13 +38,16 @@ bool GameController::init() {
 }
 
 void GameController::nextStage() {
+	if (!m_pCampaign)
+		return;
+
     // 'scene' is an autorelease object
     auto scene = Scene::create();
 
     // 'layer' is an autorelease object
     auto layer = StageScene::create();
 
-    auto data = StageDataManager::getInstance()->getNextStageData();
+    auto data = m_pCampaign->getNextStageData();
     if (data)
     	layer->loadStageData(data);
 

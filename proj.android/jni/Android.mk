@@ -14,10 +14,11 @@ LOCAL_SRC_FILES := kidsudoku_cpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/StageScene.cpp	\
                    ../../Classes/StageData.cpp \
+                   ../../Classes/CampaignData.cpp \
                    ../../Classes/NumberBar.cpp \
                    ../../Classes/SudokuBox.cpp \
                    ../../Classes/VictoryLayer.cpp \
-                   ../../Classes/GameController.cpp
+                   ../../Classes/GameController.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

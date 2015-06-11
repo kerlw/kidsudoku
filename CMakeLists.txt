@@ -25,7 +25,7 @@ cmake_policy(SET CMP0017 NEW)
 
 cmake_minimum_required(VERSION 2.8)
 
-set(APP_NAME MyGame)
+set(APP_NAME KidSudoku)
 project (${APP_NAME})
 
 set(COCOS2D_ROOT ${CMAKE_SOURCE_DIR}/cocos2d)
@@ -119,6 +119,7 @@ set(GAME_SRC
   Classes/NumberBar.cpp
   Classes/StageData.cpp
   Classes/StageScene.cpp 
+  Classes/CampaignData.cpp
   Classes/SudokuBox.cpp 
   Classes/VictoryLayer.cpp 
   ${PLATFORM_SPECIFIC_SRC}
@@ -131,6 +132,7 @@ set(GAME_HEADERS
   Classes/NumberBar.h 
   Classes/GameController.h 
   Classes/StageData.h 
+  Classes/CampaignData.h
   Classes/SudokuBox.h 
   Classes/VictoryLayer.h
   ${PLATFORM_SPECIFIC_HEADERS}

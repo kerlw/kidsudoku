@@ -13,6 +13,7 @@
 USING_NS_CC;
 
 class StageScene;
+class CampaignData;
 
 class GameController: public Ref {
 public:
@@ -21,11 +22,17 @@ public:
 	static GameController* getInstance();
 
 	StageScene* getStageScene();
-
 	void nextStage();
+	void setCampaignData(CampaignData* data) {
+		//TODO release old data.
+		m_pCampaign = data;
+	}
+
 private:
 	GameController();
 	bool init();
+
+	CampaignData* m_pCampaign;
 };
 
 #endif /* GAMECONTROLLER_H_ */

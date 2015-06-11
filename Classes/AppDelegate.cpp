@@ -1,5 +1,7 @@
 #include "AppDelegate.h"
 #include "StageScene.h"
+#include "CampaignData.h"
+#include "GameController.h"
 
 USING_NS_CC;
 
@@ -46,14 +48,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-    std::string path = UserDefault::getInstance()->getStringForKey(KEYNAME_EXTERNAL_DATA_PATH);
-    log("external data path is %s", path.c_str());
+    auto cache = SpriteFrameCache::getInstance();
+	cache->addSpriteFramesWithFile("fruits.plist");
 
-    // create a scene. it's an autorelease object
-    auto scene = StageScene::createScene();
-
-    // run
-    director->runWithScene(scene);
+	DataFileHelper::getInstance()->installPackedData();
+    DataFileHelper::getInstance()->loadInternalData();
+    GameController::getInstance()->nextStage();
 
     return true;
 }

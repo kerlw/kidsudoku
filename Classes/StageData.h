@@ -46,22 +46,6 @@ public:
 	static float calcScaleRatio(const StageData& data);
 };
 
-class StageDataManager : public Ref {
-public:
-	virtual ~StageDataManager();
-	static StageDataManager* getInstance();
-
-	bool init();
-	StageData* getNextStageData();
-
-protected:
-	std::vector<StageData> m_vctData;
-	int m_iCurrentIndex;
-
-private:
-	StageDataManager();
-};
-
 inline StageData& StageData::operator =(const StageData& dst) {
 	this->plt_file = dst.plt_file;
 	this->res_file = dst.res_file;
