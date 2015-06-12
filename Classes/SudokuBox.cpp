@@ -250,6 +250,10 @@ void SudokuBox::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) 
 }
 
 void SudokuBox::onDraw(const Mat4& transform) {
+	//if the grid has only one row/col, dont draw the grid, because the grid maybe make player be confused.
+	if (m_stagedata.rows_per_grid <= 1 || m_stagedata.cols_per_grid <= 1)
+		return;
+
 	int rows = m_stagedata.grids_in_row;
 	int cols = m_stagedata.grids_in_col;
 	if (rows <= 0 || cols <= 0)
@@ -262,6 +266,7 @@ void SudokuBox::onDraw(const Mat4& transform) {
 
 	CHECK_GL_ERROR_DEBUG();
 
+	//draw the grid with difference colors.
 	Color4B gridColors[] = {
 			Color4B(0, 255, 255, 255),
 			Color4B(255, 0, 255, 255)
