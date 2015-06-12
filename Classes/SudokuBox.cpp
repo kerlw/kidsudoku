@@ -94,31 +94,42 @@ void SudokuBox::onItemDragedAtPoint(const Vec2& point, int numberIndex) {
 		if (m_pData[pos] == numberIndex + 1)
 			return;
 
-		m_pData[pos] = numberIndex + 1;
+		operation op;
+		op.pos = pos;
+		op.oldValue = m_pData[pos];
+		op.value = numberIndex + 1;
 
-		//create the sprite and set the position.
-		Sprite* sprite = numberIndex >= 0 ?
-				Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[numberIndex]))
-					: nullptr;
-
-		//remove the old one if there is an old sprite.
-		Sprite* old = m_mapSprites[pos];
-		m_mapSprites[pos] = sprite;
-		if (old) {
-			this->removeChild(old);
-			old = nullptr;
-		}
-
-		//add the new one if it is not null.
-		if (sprite) {
-			sprite->ignoreAnchorPointForPosition(false);
-			sprite->setAnchorPoint(Vec2(0, 1));
-			sprite->setPosition(Vec2((pos % m_iCols) * CELL_SIZE, (m_iRows - pos / m_iCols) * CELL_SIZE));
-			this->addChild(sprite, 0);
-		}
+		setNumber(pos, numberIndex + 1);
+		m_vctOps.push_back(op);
 	} else {
 		//its a original cell, ignore
 		log("position %d is a original cell", pos);
+	}
+}
+
+void SudokuBox::setNumber(int pos, int value) {
+	int numberIndex = value - 1;
+	m_pData[pos] = value;
+
+	//create the sprite and set the position.
+	Sprite* sprite = numberIndex >= 0 ?
+			Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[numberIndex]))
+				: nullptr;
+
+	//remove the old one if there is an old sprite.
+	Sprite* old = m_mapSprites[pos];
+	m_mapSprites[pos] = sprite;
+	if (old) {
+		this->removeChild(old);
+		old = nullptr;
+	}
+
+	//add the new one if it is not null.
+	if (sprite) {
+		sprite->ignoreAnchorPointForPosition(false);
+		sprite->setAnchorPoint(Vec2(0, 1));
+		sprite->setPosition(Vec2((pos % m_iCols) * CELL_SIZE, (m_iRows - pos / m_iCols) * CELL_SIZE));
+		this->addChild(sprite, 0);
 	}
 }
 
@@ -228,4 +239,81 @@ void SudokuBox::refreshErrorTipsLayer() {
 			mit++;
 		}
 	}
+}
+
+void SudokuBox::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) {
+	Layout::draw(renderer, transform, flags);
+
+	m_command.init(_globalZOrder);
+	m_command.func = CC_CALLBACK_0(SudokuBox::onDraw, this, transform);
+	renderer->addCommand(&m_command);
+}
+
+void SudokuBox::onDraw(const Mat4& transform) {
+	int rows = m_stagedata.grids_in_row;
+	int cols = m_stagedata.grids_in_col;
+	if (rows <= 0 || cols <= 0)
+		return;
+
+	Director* director = Director::getInstance();
+	CCASSERT(nullptr != director, "Director is null when seting matrix stack");
+	director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+	director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
+
+	CHECK_GL_ERROR_DEBUG();
+
+	Color4B gridColors[] = {
+			Color4B(0, 255, 255, 255),
+			Color4B(255, 0, 255, 255)
+		};
+
+	int linW = 3;
+	glLineWidth(linW);
+	Size size = getContentSize();
+	float width = size.width / cols;
+	float height = size.height / rows;
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			Color4B cl = gridColors[(j+(i%2))%2];
+			DrawPrimitives::setDrawColor4B(cl.r, cl.g, cl.b, cl.a);
+			Vec2 vertices[] = {
+					Vec2(width*j+linW, height*i+linW),
+					Vec2(width*j+linW, height*(i+1)-linW),
+					Vec2(width*(j+1)-linW, height*(i+1)-linW),
+					Vec2(width*(j+1)-linW, height*i+linW)
+			};
+			DrawPrimitives::drawPoly(vertices, 4, true);
+		}
+	}
+
+	CHECK_GL_ERROR_DEBUG();
+	director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+}
+
+void SudokuBox::reset() {
+	memcpy(m_pData, m_pOrgData, sizeof(int) * m_iCols * m_iRows);
+
+	auto it = m_mapSprites.begin();
+	while (it != m_mapSprites.end()) {
+		this->removeChild(it->second);
+		++it;
+	}
+
+	m_vctOps.clear();
+	m_mapSprites.clear();
+	m_setErrors.clear();
+	refreshErrorTipsLayer();
+}
+
+void SudokuBox::undo() {
+	auto it = m_vctOps.rbegin();
+	if (it == m_vctOps.rend())
+		return;
+
+	setNumber(it->pos, it->oldValue);
+	m_vctOps.pop_back();
+
+	checkResult();
+	refreshErrorTipsLayer();
 }

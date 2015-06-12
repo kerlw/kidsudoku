@@ -24,6 +24,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+    void menuResetCallback(cocos2d::Ref* pSender);
+    void menuUndoCallback(cocos2d::Ref* pSender);
     
     bool loadStageData(const StageData* pData);
 
