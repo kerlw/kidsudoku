@@ -60,6 +60,16 @@ bool StageScene::init()
 }
 
 
+void StageScene::menuResetCallback(Ref* pSender) {
+	if (m_pBox)
+		m_pBox->reset();
+}
+
+void StageScene::menuUndoCallback(Ref* pSender) {
+	if (m_pBox)
+		m_pBox->undo();
+}
+
 void StageScene::menuCloseCallback(Ref* pSender)
 {
     Director::getInstance()->end();
@@ -99,19 +109,30 @@ bool StageScene::loadStageData(const StageData* pData) {
 	//add Sudoku Box to scene
 	m_pBox = SudokuBox::create();
 	m_pBox->initWithStageData(*pData);
-	m_pBox->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y + CELL_SIZE));
+	m_pBox->setPosition(Vec2(visibleSize.width/2 + origin.x, (visibleSize.height + CELL_SIZE)/2 + origin.y));
 	this->addChild(m_pBox);
 
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
+	//reset menu item
+	auto resetItem = MenuItemImage::create("reset.png", "reset.png",
+											CC_CALLBACK_1(StageScene::menuResetCallback, this));
+	resetItem->setPosition(Vec2(origin.x + resetItem->getContentSize().width/2,
+							 origin.y + visibleSize.height - resetItem->getContentSize().height/2));
+
+	//undo menu item
+	auto undoItem = MenuItemImage::create("undo.png", "undo.png",
+											CC_CALLBACK_1(StageScene::menuUndoCallback, this));
+	undoItem->setPosition(Vec2(origin.x + undoItem->getContentSize().width/2,
+							 origin.y + visibleSize.height - CELL_SIZE - undoItem->getContentSize().height/2));
+
+	//close menu item
+    auto closeItem = MenuItemImage::create("close.png", "close.png",
                                            CC_CALLBACK_1(StageScene::menuCloseCallback, this));
 
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(closeItem, resetItem, undoItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 

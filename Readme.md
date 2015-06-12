@@ -23,11 +23,14 @@ I wanna give her a gift -- a sudoku game, but she is too young to play the real 
 	* 【done】make some stage data internal 内置一些关卡数据
 	* 【done】make the game continuable, stage by stage 让游戏一关关的延续
 	* 【done】point out the error 给出错误提示
-	* 【TODO】load campaign or stage data from file 从文件加载战役、关卡数据
-	* 【TODO】add bacground images to each cell 每个格子加入背景
+	* 【done】load campaign or stage data from file 从文件加载战役、关卡数据
+	* 【done】add reset/undo for each stage 在关卡中增加重置/撤消支持【TODO】add bacground images to each cell 每个格子加入背景
+	* 【doing】add main scene, campaign scene 增加主界面、战役界面
 + an editor for the game 完成一个编辑器
-	* 【doing】edit single stage at first 从编辑单个场景开始着手
-	* 【TODO】edit campaigns which is made up by stages 编辑由stage组成的战役
+	* 【done】edit single stage at first 从编辑单个关卡开始着手
+	* 【done】edit campaigns which is made up by stages 编辑由关卡组成的战役
+	* 【done】generator random puzzle according to specified size 根据指定的尺寸生成随机的谜题
+	* 【doing】specify the resource for the campaign/stage 为战役/关卡设置特定的资源
 
 ###How to compile 如何编译代码
 *  cocos2d-x 3.6 needed 需要cocos2d-x 3.6
@@ -47,4 +50,5 @@ for android: 编译目标android平台的话则运行
 ###Contact me 联系我
 If you are a programmer and have interest in this project, mail me!  Any help would be appreciated.
 如果你是对这个项目感兴趣的程序猿，联系我！欢迎一切助力，谢谢了先。
+
 Email: kerl.d.w@gmail.com

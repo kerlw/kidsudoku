@@ -17,7 +17,12 @@ static DataFileHelper* s_pDataFileHelper = nullptr;
 
 CampaignData* CampaignData::loadData(const std::string& path) {
 	auto campaign = new (std::nothrow) CampaignData();
-	unsigned char* data = FileUtils::getInstance()->getFileData(path, "rb", nullptr);
+	/**
+	 * For android, the 3rd parameter of FileUtils::getFileData(...) could be nullptr,
+	 * but for linux, it could not be nullptr, suck!
+	 */
+	ssize_t size;
+	unsigned char* data = FileUtils::getInstance()->getFileData(path, "rb", &size);
 	if (!data)
 		return campaign;
 

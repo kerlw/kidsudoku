@@ -18,6 +18,11 @@ USING_NS_CC;
 
 class SudokuBox: public ui::Layout {
 public:
+	typedef struct operation {
+		int pos;
+		int oldValue;
+		int value;
+	} operation;
 	SudokuBox();
 	virtual ~SudokuBox();
 
@@ -31,11 +36,18 @@ public:
 	/** after check result, refresh error tips */
 	void refreshErrorTipsLayer();
 
-CC_CONSTRUCTOR_ACCESS:
-	virtual bool init()
-override	;
-	bool containsPoint(const Vec2& point) const;
+	void reset();
+	void undo();
 
+	virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
+	void onDraw(const Mat4& transform);
+
+CC_CONSTRUCTOR_ACCESS:
+	virtual bool init() override	;
+	bool containsPoint(const Vec2& point) const;
+	void setNumber(int pos, int value);
+
+private:
 	int* m_pOrgData;
 	int* m_pData;
 	int m_iCols;
@@ -44,6 +56,9 @@ override	;
 	std::map<int, Sprite*> m_mapSprites;
     std::set<int> m_setErrors;
     std::map<int, Sprite*> m_mapErrorMask;
+    CustomCommand m_command;
+
+    std::vector<operation> m_vctOps;
 };
 
 #endif /* SUDOKUBOX_H_ */
