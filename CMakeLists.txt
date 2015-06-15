@@ -110,11 +110,16 @@ include_directories(
   /usr/local/include/GLFW
   /usr/include/GLFW
   ${COCOS2D_ROOT}/cocos
+  ${COCOS2D_ROOT}/external
+  ${COCOS2D_ROOT}
   Classes
 )
 
 set(GAME_SRC
   Classes/AppDelegate.cpp
+  Classes/MainScene.cpp
+  Classes/CampaignScene.cpp
+  Classes/RealTableView.cpp
   Classes/GameController.cpp
   Classes/NumberBar.cpp
   Classes/StageData.cpp
@@ -127,6 +132,9 @@ set(GAME_SRC
 
 set(GAME_HEADERS
   Classes/AppDelegate.h
+  Classes/MainScene.h
+  Classes/CampaignScene.h
+  Classes/RealTableView.h
   Classes/Const.h 
   Classes/Lock.h 
   Classes/NumberBar.h 

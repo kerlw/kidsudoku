@@ -21,10 +21,10 @@ bool VictoryLayer::init() {
 
 	this->setContentSize(Size(800,600));
 	this->setColor(Color3B(0,255,255));
-	this->setOpacity(255);
+	this->setOpacity(200);
 
-	auto label = LabelTTF::create("Victory", "fonts/Marker Felt.ttf", 188);
-	label->setFontFillColor(Color3B(255,0,0));
+	auto label = Label::createWithTTF("Victory", "fonts/Marker Felt.ttf", 188);
+	label->setTextColor(Color4B(255, 0, 0, 200));
 	label->setPosition(Vec2(800/2, (600 + 80) / 2));
 	this->addChild(label);
 

@@ -6,6 +6,8 @@
  */
 
 #include "GameController.h"
+#include "MainScene.h"
+#include "CampaignScene.h"
 #include "StageScene.h"
 #include "StageData.h"
 #include "CampaignData.h"
@@ -48,11 +50,40 @@ void GameController::nextStage() {
     auto layer = StageScene::create();
 
     auto data = m_pCampaign->getNextStageData();
-    if (data)
-    	layer->loadStageData(data);
+   	layer->loadStageData(data);
 
     // add layer as a child to scene
     scene->addChild(layer);
 
     Director::getInstance()->replaceScene(scene);
+}
+
+void GameController::enterScene(const SceneType& eType) {
+	auto scene = Scene::create();
+
+	Layer* layer = nullptr;
+	switch (eType) {
+	case eMainScene:
+		layer = MainScene::create();
+		break;
+	case eCampaignScene:
+		layer = CampaignScene::create(m_pCampaign);
+		break;
+	case eStageScene:
+	{
+		layer = StageScene::create();
+		auto data = m_pCampaign->currentStageData();
+		((StageScene*)layer)->loadStageData(data);
+		break;
+	}
+	}
+
+	if (layer) {
+		scene->addChild(layer);
+		Director::getInstance()->pushScene(scene);
+	}
+}
+
+void GameController::leaveScene() {
+	Director::getInstance()->popScene();
 }

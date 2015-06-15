@@ -14,6 +14,7 @@
 USING_NS_CC;
 
 static DataFileHelper* s_pDataFileHelper = nullptr;
+const uuid CampaignData::INTERNAL_CAMPAIGN_UUID = {0,0,0,0};
 
 CampaignData* CampaignData::loadData(const std::string& path) {
 	auto campaign = new (std::nothrow) CampaignData();
@@ -30,7 +31,7 @@ CampaignData* CampaignData::loadData(const std::string& path) {
 	pos = 4 + 4;	// TODO version, resource
 	int count = *((int*)(data + pos));
 	pos += 4;
-	log("there are %d stages in this file.", count);
+//	log("there are %d stages in this file.", count);
 	for (int i = 0; i < count; i++) {
 			auto stage = new (std::nothrow) StageData();
 			stage->rows_per_grid = data[pos++];
@@ -44,7 +45,7 @@ CampaignData* CampaignData::loadData(const std::string& path) {
 			memset(stage->cell_data, 0, sizeof(int) * cells);
 
 			cells = (data[pos++] | data[pos++] << 8);
-			log(" has %d known cells", cells);
+//			log(" has %d known cells", cells);
 			for (int j = 0; j < cells; j++) {
 				stage->cell_data[data[pos++]] = data[pos++];
 			}
@@ -111,6 +112,15 @@ CampaignData::~CampaignData() {
 		delete *it;
 	}
 	m_vctData.clear();
+}
+
+StageData* CampaignData::currentStageData() {
+	if (m_iCurrentIndex < 0)
+		m_iCurrentIndex = 0;
+	if (m_iCurrentIndex >= m_vctData.size())
+		return nullptr;
+
+	return m_vctData[m_iCurrentIndex];
 }
 
 StageData* CampaignData::getNextStageData() {
@@ -261,4 +271,9 @@ bool PackedCampaignProcessor::unpackTo(const std::string& path) {
 
 	fclose(fp);
 	return true;
+}
+
+bool operator==(const uuid& src, const uuid& dest) {
+	return (src.uuid1 == dest.uuid1) && (src.uuid2 == dest.uuid2)
+			&& (src.uuid3 == dest.uuid3) && (src.uuid4 == dest.uuid4);
 }

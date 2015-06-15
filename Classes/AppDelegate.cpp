@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
-#include "StageScene.h"
-#include "CampaignData.h"
 #include "GameController.h"
+#include "CampaignData.h"
 
 USING_NS_CC;
 
@@ -53,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	DataFileHelper::getInstance()->installPackedData();
     DataFileHelper::getInstance()->loadInternalData();
-    GameController::getInstance()->nextStage();
+    GameController::getInstance()->enterScene(GameController::eMainScene);
 
     return true;
 }

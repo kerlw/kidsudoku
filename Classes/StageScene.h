@@ -16,16 +16,10 @@ public:
 	StageScene();
 	virtual ~StageScene();
 
-//    // there's no 'id' in cpp, so we recommend returning the class instance pointer
-//    static cocos2d::Scene* createScene();
-
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
-    
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void menuResetCallback(cocos2d::Ref* pSender);
-    void menuUndoCallback(cocos2d::Ref* pSender);
+    void menuBackCallback(Ref* pSender);
+    void menuResetCallback(Ref* pSender);
+    void menuUndoCallback(Ref* pSender);
     
     bool loadStageData(const StageData* pData);
 
@@ -36,6 +30,7 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(StageScene);
+
 protected:
 	/** show the victory scene */
 	void showVictoryLayer();

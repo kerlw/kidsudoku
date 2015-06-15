@@ -17,9 +17,18 @@ class CampaignData;
 
 class GameController: public Ref {
 public:
+	enum SceneType {
+		eMainScene,
+		eCampaignScene,
+		eStageScene,
+	};
+public:
 	virtual ~GameController();
 
 	static GameController* getInstance();
+
+	void enterScene(const SceneType& eType);
+	void leaveScene();
 
 	StageScene* getStageScene();
 	void nextStage();
