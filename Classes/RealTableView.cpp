@@ -18,8 +18,6 @@ RealTableView* RealTableView::create(RealTableViewDataSource* dataSource, Size s
 RealTableView* RealTableView::create(RealTableViewDataSource* dataSource, Size size, Node *container) {
 	RealTableView *table = new (std::nothrow) RealTableView();
     table->m_iCols = size.width / dataSource->cellSizeForTable(table).width;
-
-    log("cols is %d", table->m_iCols);
     table->initWithViewSize(size, container);
     table->autorelease();
     table->setDataSource(dataSource);
@@ -140,12 +138,10 @@ void RealTableView::insertCellAtIndex(ssize_t idx)
     long newIdx = 0;
 
     auto cell = cellAtIndex(idx);
-    if (cell)
-    {
+    if (cell) {
         newIdx = _cellsUsed.getIndex(cell);
         // Move all cells behind the inserted position
-        for (long i = newIdx; i < _cellsUsed.size(); i++)
-        {
+        for (long i = newIdx; i < _cellsUsed.size(); i++) {
             cell = _cellsUsed.at(i);
             this->_setIndexForCell(cell->getIdx()+1, cell);
         }
@@ -226,7 +222,7 @@ void RealTableView::_updateContentSize() {
 
 	Size size = _dataSource->cellSizeForTable(this);
 	this->setContentSize(Size(size.width * m_iCols, size.height * rows));
-	this->setContentOffset(Vec2(0,0));
+	this->setContentOffset(Vec2(0, this->minContainerOffset().y));
 }
 
 Vec2 RealTableView::_offsetFromIndex(ssize_t index) {
@@ -235,95 +231,24 @@ Vec2 RealTableView::_offsetFromIndex(ssize_t index) {
 
 	Size size = _dataSource->cellSizeForTable(this);
 	Vec2 offset(size.width * cols, size.height * rows);
-	log("%d cell offset is %d,%d", index, offset.x, offset.y);
+	if (_vordering == TableView::VerticalFillOrder::TOP_DOWN) {
+		offset.y = this->getContainer()->getContentSize().height - offset.y - size.height;
+	}
 	return offset;
 }
 
-//Vec2 RealTableView::__offsetFromIndex(ssize_t index)
-//{
-//    Vec2 offset;
-//    Size  cellSize;
-//
-//    switch (this->getDirection())
-//    {
-//        case Direction::HORIZONTAL:
-//            offset.set(_vCellsPositions[index], 0.0f);
-//            break;
-//        default:
-//            offset.set(0.0f, _vCellsPositions[index]);
-//            break;
-//    }
-//
-//    return offset;
-//}
-
-long RealTableView::_indexFromOffset(Vec2 offset)
-{
-//    long index = 0;
-//    const long maxIdx = _dataSource->numberOfCellsInTableView(this) - 1;
-//
-//    if (_vordering == VerticalFillOrder::TOP_DOWN)
-//    {
-//        offset.y = this->getContainer()->getContentSize().height - offset.y;
-//    }
-//    index = this->__indexFromOffset(offset);
-//    if (index != -1)
-//    {
-//        index = MAX(0, index);
-//        if (index > maxIdx)
-//        {
-//            index = CC_INVALID_INDEX;
-//        }
-//    }
-//
-//    return index;
+long RealTableView::_indexFromOffset(Vec2 offset) {
 	Size size = _dataSource->cellSizeForTable(this);
+	if (_vordering == TableView::VerticalFillOrder::TOP_DOWN) {
+		offset.y = this->getContainer()->getContentSize().height - offset.y;
+	}
 	int rows = offset.y / size.height;
 	int cols = offset.x / size.width;
-	return rows * m_iCols + cols;
+	long index = rows * m_iCols + cols;
+	if (index < 0)
+		index = 0;
+	return index;
 }
-
-//long RealTableView::__indexFromOffset(Vec2 offset)
-//{
-//    long low = 0;
-//    long high = _dataSource->numberOfCellsInTableView(this) - 1;
-//    float search;
-//    switch (this->getDirection())
-//    {
-//        case Direction::HORIZONTAL:
-//            search = offset.x;
-//            break;
-//        default:
-//            search = offset.y;
-//            break;
-//    }
-//
-//    while (high >= low)
-//    {
-//        long index = low + (high - low) / 2;
-//        float cellStart = _vCellsPositions[index];
-//        float cellEnd = _vCellsPositions[index + 1];
-//
-//        if (search >= cellStart && search <= cellEnd)
-//        {
-//            return index;
-//        }
-//        else if (search < cellStart)
-//        {
-//            high = index - 1;
-//        }
-//        else
-//        {
-//            low = index + 1;
-//        }
-//    }
-//
-//    if (low <= 0) {
-//        return 0;
-//    }
-//
-//    return -1;
-//}
 
 void RealTableView::_moveCellOutOfSight(TableViewCell *cell)
 {
@@ -438,49 +363,38 @@ void RealTableView::scrollViewDidScroll(ScrollView* view) {
     log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 #endif
 
-    if (!_cellsUsed.empty())
-    {
+    if (!_cellsUsed.empty()) {
         auto cell = _cellsUsed.at(0);
         idx = cell->getIdx();
 
-        while(idx < startIdx)
-        {
+        while(idx < startIdx) {
             this->_moveCellOutOfSight(cell);
-            if (!_cellsUsed.empty())
-            {
+            if (!_cellsUsed.empty()) {
                 cell = _cellsUsed.at(0);
                 idx = cell->getIdx();
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
     }
-    if (!_cellsUsed.empty())
-    {
+
+    if (!_cellsUsed.empty()) {
         auto cell = _cellsUsed.back();
         idx = cell->getIdx();
 
-        while(idx <= maxIdx && idx > endIdx)
-        {
+        while(idx <= maxIdx && idx > endIdx) {
             this->_moveCellOutOfSight(cell);
-            if (!_cellsUsed.empty())
-            {
+            if (!_cellsUsed.empty()) {
                 cell = _cellsUsed.back();
                 idx = cell->getIdx();
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
     }
 
-    for (long i = startIdx; i <= endIdx; i++)
-    {
-        if (_indices->find(i) != _indices->end())
-        {
+    for (long i = startIdx; i <= endIdx; i++) {
+        if (_indices->find(i) != _indices->end()) {
             continue;
         }
         this->updateCellAtIndex(i);

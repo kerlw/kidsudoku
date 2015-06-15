@@ -8,6 +8,8 @@
 #ifndef CAMPAIGNDATA_H_
 #define CAMPAIGNDATA_H_
 
+#include "cocos2d.h"
+
 #include <string>
 #include <vector>
 
@@ -34,6 +36,13 @@ public:
 		return m_vctData[index];
 	}
 
+	void setCurrentIndex(int index) {
+		if (index < 0)
+			index = 0;
+		if (index >= m_vctData.size())
+			index = m_vctData.size() - 1;
+		m_iCurrentIndex = index;
+	}
 	int getCurrentIndex() {
 		return m_iCurrentIndex;
 	}

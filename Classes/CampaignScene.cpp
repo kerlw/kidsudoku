@@ -23,7 +23,8 @@ CampaignScene* CampaignScene::create(CampaignData* data) {
     }
 }
 
-CampaignScene::CampaignScene(CampaignData* data) {
+CampaignScene::CampaignScene(CampaignData* data) 
+		: m_pData(data) {
 	m_pSource = new CampaignDataSource(data);
 }
 
@@ -78,6 +79,7 @@ TableViewCell* CampaignDataSource::tableCellAtIndex(RealTableView *table, ssize_
 	btn->setTitleFontSize(40);
 	btn->setContentSize(Size(120, 120));
 	btn->setPosition(Vec2(60, 60));
+	btn->addClickEventListener(CC_CALLBACK_1(CampaignDataSource::onBtnStageClicked, this));
 
 	cell->addChild(btn);
 
@@ -86,5 +88,20 @@ TableViewCell* CampaignDataSource::tableCellAtIndex(RealTableView *table, ssize_
 
 ssize_t CampaignDataSource::numberOfCellsInTableView(RealTableView *table) {
 	return m_pData->getStageCount();
+}
+
+void CampaignDataSource::onBtnStageClicked(Ref* pSender) {
+	ui::Widget* widget = dynamic_cast<ui::Widget*>(pSender);
+	if (!widget)
+		return;
+
+	TableViewCell* cell = dynamic_cast<TableViewCell*>(widget->getParent());
+	if (!cell)
+		return;
+
+	long index = cell->getIdx();
+	m_pData->setCurrentIndex(index);
+
+	GameController::getInstance()->enterScene(GameController::eStageScene);
 }
 

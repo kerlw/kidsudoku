@@ -11,9 +11,7 @@ USING_NS_CC;
 StageScene::StageScene() :
 		m_pBar(nullptr),
 		m_pSelectedSprite(nullptr),
-		m_iSelectedIndex(-1)
-{
-//	this->setTouchEnabled(true);
+		m_iSelectedIndex(-1) {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(StageScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(StageScene::onTouchMoved, this);
@@ -53,7 +51,7 @@ bool StageScene::loadStageData(const StageData* pData) {
 
 	Size visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();
-	log("visibleSize is %f, %f, origin is %f, %f", visibleSize.width, visibleSize.height, origin.x, origin.y);
+	//log("visibleSize is %f, %f, origin is %f, %f", visibleSize.width, visibleSize.height, origin.x, origin.y);
 
 	auto cache = SpriteFrameCache::getInstance();
 	if (pData->plt_file.length() > 0) {

@@ -44,10 +44,12 @@ CampaignData* CampaignData::loadData(const std::string& path) {
 			stage->cell_data = new int[cells];
 			memset(stage->cell_data, 0, sizeof(int) * cells);
 
-			cells = (data[pos++] | data[pos++] << 8);
+			cells = data[pos++];
+			cells |= (data[pos++] << 8);
 //			log(" has %d known cells", cells);
 			for (int j = 0; j < cells; j++) {
-				stage->cell_data[data[pos++]] = data[pos++];
+				int index = data[pos++];
+				stage->cell_data[index] = data[pos++];
 			}
 
 			campaign->m_vctData.push_back(stage);

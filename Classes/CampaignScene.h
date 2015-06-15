@@ -17,7 +17,7 @@ USING_NS_CC_EXT;
 class CampaignData;
 class CampaignDataSource;
 
-class CampaignScene: public Layer {
+class CampaignScene : public Layer {
 public:
 	CampaignScene(CampaignData* data);
 	virtual ~CampaignScene();
@@ -27,7 +27,10 @@ public:
 	static CampaignScene* create(CampaignData* data);
 
 	void menuBackCallback(Ref* pSender);
+
+	//virtual void tableCellTouched(RealTableView* table, TableViewCell* cell) override;
 private:
+	CampaignData* m_pData;
 	CampaignDataSource* m_pSource;
 };
 
@@ -41,6 +44,8 @@ public:
 
 	virtual TableViewCell* tableCellAtIndex(RealTableView *table, ssize_t idx) override;
 	virtual ssize_t numberOfCellsInTableView(RealTableView *table) override;
+
+	void onBtnStageClicked(Ref* pSender);
 
 private:
 	CampaignData* m_pData;
