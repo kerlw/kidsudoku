@@ -15,6 +15,8 @@
 
 USING_NS_CC;
 
+class CampaignData;
+
 class StageData {
 public:
 	std::string plt_file;
@@ -30,6 +32,10 @@ public:
 
 	int* cell_data;
 
+	bool done;
+	CampaignData* campaign;
+
+	StageData() : done(false) {}
 	virtual ~StageData() {}
 	StageData& operator=(const StageData& dst);
 };
@@ -43,7 +49,7 @@ public:
 //	static void setDesignResolution(float width, float height);
 
 	/** calculate the stage scene's scale ratio from StageData */
-	static float calcScaleRatio(const StageData& data);
+	static float calcScaleRatio(const StageData* data);
 };
 
 inline StageData& StageData::operator =(const StageData& dst) {

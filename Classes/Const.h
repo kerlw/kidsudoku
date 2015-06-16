@@ -10,10 +10,13 @@
 
 static const char* KEYNAME_EXTERNAL_DATA_PATH = "external_data_path";
 
+static const char* KEY_SUFFIX_STAGE_STATUS = "_stage_status";
+
 static const char* const FRAME_NAME[] = {
 		"1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "error_mask.png"
 	};
 
+static const int MAX_NUMBERS = 9;
 static const int MAX_CELLS = 81;		// 9*9
 
 static const int ERROR_MASK_INDEX = 9;

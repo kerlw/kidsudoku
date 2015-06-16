@@ -18,6 +18,12 @@ typedef struct _uuid {
 	unsigned int uuid2;
 	unsigned int uuid3;
 	unsigned int uuid4;
+
+	inline std::string toString() {
+		char buff[20] = {0};
+		sprintf(buff, "%04X-%04X-%04X-%04X", uuid1, uuid2, uuid3, uuid4);
+		return std::string(buff);
+	}
 } uuid;
 
 class StageData;
@@ -51,7 +57,12 @@ public:
 		return m_vctData.size();
 	}
 
-	static CampaignData* loadData(const std::string& path);
+	bool isStageDone(int index);
+
+	void loadStageStatus();
+	void saveStageStatus();
+
+	static CampaignData* loadFromData(const std::string& path);
 	static CampaignData* loadFromFile(const std::string& path);
 
 protected:
@@ -59,7 +70,7 @@ protected:
 	std::vector<StageData*> m_vctData;
 	int m_iCurrentIndex;
 
-protected:
+public:
 	static const uuid INTERNAL_CAMPAIGN_UUID;
 };
 

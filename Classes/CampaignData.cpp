@@ -16,7 +16,7 @@ USING_NS_CC;
 static DataFileHelper* s_pDataFileHelper = nullptr;
 const uuid CampaignData::INTERNAL_CAMPAIGN_UUID = {0,0,0,0};
 
-CampaignData* CampaignData::loadData(const std::string& path) {
+CampaignData* CampaignData::loadFromData(const std::string& path) {
 	auto campaign = new (std::nothrow) CampaignData();
 	/**
 	 * For android, the 3rd parameter of FileUtils::getFileData(...) could be nullptr,
@@ -29,34 +29,45 @@ CampaignData* CampaignData::loadData(const std::string& path) {
 
 	int pos = 0;
 	pos = 4 + 4;	// TODO version, resource
+
+	campaign->m_uuid.uuid1 = *((int*)(data + pos));
+	pos += 4;
+	campaign->m_uuid.uuid2 = *((int*)(data + pos));
+	pos += 4;
+	campaign->m_uuid.uuid3 = *((int*)(data + pos));
+	pos += 4;
+	campaign->m_uuid.uuid4 = *((int*)(data + pos));
+	pos += 4;
+
 	int count = *((int*)(data + pos));
 	pos += 4;
 //	log("there are %d stages in this file.", count);
 	for (int i = 0; i < count; i++) {
-			auto stage = new (std::nothrow) StageData();
-			stage->rows_per_grid = data[pos++];
-			stage->cols_per_grid = data[pos++];
-			stage->grids_in_row = data[pos++];
-			stage->grids_in_col = data[pos++];
-			stage->numbers = stage->cols_per_grid * stage->rows_per_grid;
+		auto stage = new (std::nothrow) StageData();
+		stage->rows_per_grid = data[pos++];
+		stage->cols_per_grid = data[pos++];
+		stage->grids_in_row = data[pos++];
+		stage->grids_in_col = data[pos++];
+		stage->numbers = stage->cols_per_grid * stage->rows_per_grid;
 
-			int cells = stage->numbers * stage->grids_in_col * stage->grids_in_row;
-			stage->cell_data = new int[cells];
-			memset(stage->cell_data, 0, sizeof(int) * cells);
+		int cells = stage->numbers * stage->grids_in_col * stage->grids_in_row;
+		stage->cell_data = new int[cells];
+		memset(stage->cell_data, 0, sizeof(int) * cells);
 
-			cells = data[pos++];
-			cells |= (data[pos++] << 8);
+		cells = data[pos++];
+		cells |= (data[pos++] << 8);
 //			log(" has %d known cells", cells);
-			for (int j = 0; j < cells; j++) {
-				int index = data[pos++];
-				stage->cell_data[index] = data[pos++];
-			}
-
-			campaign->m_vctData.push_back(stage);
+		for (int j = 0; j < cells; j++) {
+			int index = data[pos++];
+			stage->cell_data[index] = data[pos++];
 		}
-		campaign->m_iCurrentIndex = 0;
 
-		return campaign;
+		stage->campaign = campaign;
+		campaign->m_vctData.push_back(stage);
+	}
+	campaign->m_iCurrentIndex = 0;
+
+	return campaign;
 }
 
 CampaignData* CampaignData::loadFromFile(const std::string& path) {
@@ -68,6 +79,11 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 	int tmp = 0;
 	fread(&tmp, 4, 1, fp);	//version
 	fread(&tmp, 4, 1, fp);	//specify resource
+
+	fread(&(campaign->m_uuid.uuid1), 4, 1, fp);
+	fread(&(campaign->m_uuid.uuid2), 4, 1, fp);
+	fread(&(campaign->m_uuid.uuid3), 4, 1, fp);
+	fread(&(campaign->m_uuid.uuid4), 4, 1, fp);
 
 	fread(&tmp, 4, 1, fp);
 	int count = tmp;
@@ -96,6 +112,7 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 			stage->cell_data[(tmp & 0xff)] = ((tmp >> 8) & 0xff);
 		}
 
+		stage->campaign = campaign;
 		campaign->m_vctData.push_back(stage);
 	}
 	campaign->m_iCurrentIndex = 0;
@@ -126,14 +143,40 @@ StageData* CampaignData::currentStageData() {
 }
 
 StageData* CampaignData::getNextStageData() {
+	m_iCurrentIndex++;
 	if (m_iCurrentIndex < 0)
 		m_iCurrentIndex = 0;
 	if (m_iCurrentIndex >= m_vctData.size())
 		return nullptr;
 
-	return m_vctData[m_iCurrentIndex++];
+	return m_vctData[m_iCurrentIndex];
 }
 
+bool CampaignData::isStageDone(int index) {
+	if (index < 0 || index >= m_vctData.size())
+		return false;
+	return m_vctData[index]->done;
+}
+
+void CampaignData::loadStageStatus() {
+	std::string key = m_uuid.toString() + KEY_SUFFIX_STAGE_STATUS;
+	std::string value = UserDefault::getInstance()->getStringForKey(key.c_str(), "");
+	int len = value.length();
+	for (int i = 0; i < len && i < m_vctData.size(); i++) {
+		m_vctData[i]->done = (value[i] == '1');
+	}
+}
+
+void CampaignData::saveStageStatus() {
+	std::string key = m_uuid.toString() + KEY_SUFFIX_STAGE_STATUS;
+	std::string value = "";
+	auto it = m_vctData.begin();
+	while (it != m_vctData.end()) {
+		value.append((*it)->done ? "1" : "0");
+		++it;
+	}
+	UserDefault::getInstance()->setStringForKey(key.c_str(), value);
+}
 
 DataFileHelper* DataFileHelper::getInstance() {
 	if (!s_pDataFileHelper) {
@@ -170,7 +213,8 @@ void DataFileHelper::loadInternalData() {
 	if (!futils->isFileExist(path))
 		return;
 
-	auto campaign = CampaignData::loadData(path);
+	auto campaign = CampaignData::loadFromData(path);
+	campaign->loadStageStatus();
 	GameController::getInstance()->setCampaignData(campaign);
 }
 
@@ -229,6 +273,9 @@ bool PackedCampaignProcessor::unpackTo(const std::string& path) {
 		fseek(m_pFile, tmp, SEEK_CUR);
 	tmp = 0;
 	fwrite(&tmp, 4, 1, fp);
+	//TODO write real uuid
+	for (int i = 0; i < 4; i++)
+		fwrite(&tmp, 4, 1, fp);
 
 	//stage count
 	fread(&tmp, 4, 1, m_pFile);

@@ -5,10 +5,24 @@
 #include "Const.h"
 #include "GameController.h"
 #include "VictoryLayer.h"
+#include "CampaignData.h"
 
 USING_NS_CC;
 
-StageScene::StageScene() :
+StageScene* StageScene::create(StageData* data) {
+    auto *pRet = new (std::nothrow) StageScene(data);
+    if (pRet && pRet->init()) {
+        pRet->autorelease();
+        return pRet;
+    } else {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+
+StageScene::StageScene(StageData* data) :
+		m_pData(data),
 		m_pBar(nullptr),
 		m_pSelectedSprite(nullptr),
 		m_iSelectedIndex(-1) {
@@ -24,52 +38,35 @@ StageScene::StageScene() :
 StageScene::~StageScene() {
 }
 
-void StageScene::menuResetCallback(Ref* pSender) {
-	if (m_pBox)
-		m_pBox->reset();
-}
-
-void StageScene::menuUndoCallback(Ref* pSender) {
-	if (m_pBox)
-		m_pBox->undo();
-}
-
-void StageScene::menuBackCallback(Ref* pSender)
-{
-	GameController::getInstance()->leaveScene();
-}
-
-bool StageScene::loadStageData(const StageData* pData) {
-	if (pData == NULL)
+bool StageScene::init() {
+	if (!Layer::init() || !m_pData)
 		return false;
 
 	auto director = Director::getInstance();
-	float ratio = StageDataHelper::calcScaleRatio(*pData);
-	auto pView = director->getOpenGLView();
-	pView->setDesignResolutionSize(1280*ratio, 720*ratio, ResolutionPolicy::SHOW_ALL);
-	director->setOpenGLView(pView);
+	m_fScaleRatio = StageDataHelper::calcScaleRatio(m_pData);
 
 	Size visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();
-	//log("visibleSize is %f, %f, origin is %f, %f", visibleSize.width, visibleSize.height, origin.x, origin.y);
 
 	auto cache = SpriteFrameCache::getInstance();
-	if (pData->plt_file.length() > 0) {
+	if (m_pData->plt_file.length() > 0) {
 		cache->removeSpriteFrames();
-		cache->addSpriteFramesWithFile(pData->plt_file, pData->res_file);
+		cache->addSpriteFramesWithFile(m_pData->plt_file, m_pData->res_file);
 		cache->addSpriteFramesWithFile("fruits.plist");	//TODO hard code fruits as default res
 	}
 
 	//add Number Bar to scene
 	m_pBar = NumberBar::create();
-	m_pBar->attachSprites(pData->numbers, cache);
+	m_pBar->attachSprites(m_pData->numbers, cache);
 	m_pBar->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y));
+	m_pBar->setScale(m_fScaleRatio);
 	this->addChild(m_pBar, 0);
 
 	//add Sudoku Box to scene
 	m_pBox = SudokuBox::create();
-	m_pBox->initWithStageData(*pData);
-	m_pBox->setPosition(Vec2(visibleSize.width/2 + origin.x, (visibleSize.height + CELL_SIZE)/2 + origin.y));
+	m_pBox->initWithStageData(*m_pData);
+	m_pBox->setPosition(Vec2(visibleSize.width/2 + origin.x, (visibleSize.height + CELL_SIZE*m_fScaleRatio)/2 + origin.y));
+	m_pBox->setScale(m_fScaleRatio);
 	this->addChild(m_pBox);
 
 	//back menu item
@@ -99,6 +96,20 @@ bool StageScene::loadStageData(const StageData* pData) {
 	return true;
 }
 
+void StageScene::menuResetCallback(Ref* pSender) {
+	if (m_pBox)
+		m_pBox->reset();
+}
+
+void StageScene::menuUndoCallback(Ref* pSender) {
+	if (m_pBox)
+		m_pBox->undo();
+}
+
+void StageScene::menuBackCallback(Ref* pSender) {
+	GameController::getInstance()->leaveScene();
+}
+
 bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
 	AutoLock lock(m_lock);
 	//if has a sprite selected, ignore this touch event
@@ -119,6 +130,7 @@ bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
 				SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[index])
 				);
 		m_pSelectedSprite->setPosition(location);
+		m_pSelectedSprite->setScale(m_fScaleRatio);
 
 		this->addChild(m_pSelectedSprite, 0);
 	}
@@ -141,6 +153,9 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 
 		//check if this stage finished
 		if (m_pBox->checkResult()) {
+			m_pData->done = true;
+			if (m_pData->campaign)
+				m_pData->campaign->saveStageStatus();
 			this->showVictoryLayer();
 		} else {
 			m_pBox->refreshErrorTipsLayer();

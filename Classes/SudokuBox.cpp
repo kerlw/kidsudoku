@@ -70,7 +70,7 @@ bool SudokuBox::initWithStageData(const StageData& data) {
 }
 
 bool SudokuBox::containsPoint(const Vec2& point) const {
-	log("check if sudokuBox contains point %f,%f", point.x, point.y);
+//	log("check if sudokuBox contains point %f,%f", point.x, point.y);
 	if (m_iCols <= 0 || m_iRows <= 0)
 		return false;
 
@@ -81,14 +81,14 @@ bool SudokuBox::containsPoint(const Vec2& point) const {
 }
 
 void SudokuBox::onItemDragedAtPoint(const Vec2& point, int numberIndex) {
-	log("SudokuBox::onItemDragedAtPoint with numberIndex is %d", numberIndex);
+//	log("SudokuBox::onItemDragedAtPoint with numberIndex is %d", numberIndex);
 	//check if this point in the box at first.
 	if (!containsPoint(point))
 		return;
 
 	//calculate the position in box for this point.
 	int pos = m_iCols * (m_iRows - ((int)point.y / CELL_SIZE) - 1) + ((int) point.x / CELL_SIZE);
-	log("calculated the pos is %d", pos);
+//	log("calculated the pos is %d", pos);
 	if (m_pOrgData[pos] <= 0) {
 		// if not changed, return
 		if (m_pData[pos] == numberIndex + 1)
@@ -103,7 +103,7 @@ void SudokuBox::onItemDragedAtPoint(const Vec2& point, int numberIndex) {
 		m_vctOps.push_back(op);
 	} else {
 		//its a original cell, ignore
-		log("position %d is a original cell", pos);
+//		log("position %d is a original cell", pos);
 	}
 }
 

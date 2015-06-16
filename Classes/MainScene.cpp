@@ -24,7 +24,6 @@ bool MainScene::init() {
 	auto director = Director::getInstance();
 	auto pView = director->getOpenGLView();
 	pView->setDesignResolutionSize(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, ResolutionPolicy::SHOW_ALL);
-	director->setOpenGLView(pView);
 
 	Size visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();

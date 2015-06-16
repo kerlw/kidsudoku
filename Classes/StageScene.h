@@ -13,7 +13,7 @@ class SudokuBox;
 class StageScene : public Layer
 {
 public:
-	StageScene();
+	StageScene(StageData* data);
 	virtual ~StageScene();
 
     // a selector callback
@@ -21,25 +21,28 @@ public:
     void menuResetCallback(Ref* pSender);
     void menuUndoCallback(Ref* pSender);
     
-    bool loadStageData(const StageData* pData);
-
     virtual bool onTouchBegan(Touch *touch, Event *unused_event) override;
 	virtual void onTouchMoved(Touch *touch, Event *unused_event) override;
 	virtual void onTouchEnded(Touch *touch, Event *unused_event) override;
 	virtual void onTouchCancelled(Touch *touch, Event *unused_event) override;
 
+	virtual bool init() override;
+
     // implement the "static create()" method manually
-    CREATE_FUNC(StageScene);
+    static StageScene* create(StageData* data);
 
 protected:
 	/** show the victory scene */
 	void showVictoryLayer();
 
 protected:
+	StageData* m_pData;
+
     SudokuBox* m_pBox;
     NumberBar* m_pBar;
     Sprite*	m_pSelectedSprite;
     int m_iSelectedIndex;
+    float m_fScaleRatio;
 
     Lock m_lock;
 };

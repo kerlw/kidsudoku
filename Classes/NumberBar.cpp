@@ -65,7 +65,7 @@ void NumberBar::attachSprites(int number, SpriteFrameCache* cache) {
 	}
 	height += 2 * SPRITE_GAP;
 	this->setContentSize(Size(width, height));
-	log("this content size is %f, %f", width, height);
+//	log("this content size is %f, %f", width, height);
 }
 
 int NumberBar::findSpriteIndexAtLocation(Vec2 location) {

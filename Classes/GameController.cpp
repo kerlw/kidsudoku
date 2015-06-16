@@ -46,11 +46,9 @@ void GameController::nextStage() {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
 
-    // 'layer' is an autorelease object
-    auto layer = StageScene::create();
-
     auto data = m_pCampaign->getNextStageData();
-   	layer->loadStageData(data);
+    // 'layer' is an autorelease object
+    auto layer = StageScene::create(data);
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -71,9 +69,8 @@ void GameController::enterScene(const SceneType& eType) {
 		break;
 	case eStageScene:
 	{
-		layer = StageScene::create();
 		auto data = m_pCampaign->currentStageData();
-		((StageScene*)layer)->loadStageData(data);
+		layer = StageScene::create(data);
 		break;
 	}
 	}

@@ -22,16 +22,22 @@ public:
 	CampaignScene(CampaignData* data);
 	virtual ~CampaignScene();
 
-	virtual bool init();
+	virtual bool init() override;
 
 	static CampaignScene* create(CampaignData* data);
 
 	void menuBackCallback(Ref* pSender);
 
+	virtual void onEnter() override {
+		Layer::onEnter();
+		m_pTableStages->reloadData();
+	}
+
 	//virtual void tableCellTouched(RealTableView* table, TableViewCell* cell) override;
 private:
 	CampaignData* m_pData;
 	CampaignDataSource* m_pSource;
+	RealTableView* m_pTableStages;
 };
 
 class CampaignDataSource : public RealTableViewDataSource {

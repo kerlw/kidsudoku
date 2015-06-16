@@ -13,7 +13,7 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := kidsudoku_cpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/MainScene.cpp	\
-                   ../../Classes/CampainScene.cpp	\
+                   ../../Classes/CampaignScene.cpp	\
                    ../../Classes/RealTableView.cpp \
                    ../../Classes/StageScene.cpp	\
                    ../../Classes/StageData.cpp \
