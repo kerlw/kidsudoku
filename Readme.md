@@ -1,5 +1,7 @@
 ##KidSudoku 儿童数独##
 
+[![Join the chat at https://gitter.im/kerlw/kidsudoku](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kerlw/kidsudoku?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 I'm a father of a  lovely 4-years old girl.
 I wanna give her a gift -- a sudoku game, but she is too young to play the real sudoku, so I wanna make a simple one.
 
