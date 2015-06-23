@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := kidsudoku_cpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/MainScene.cpp	\
                    ../../Classes/CampaignScene.cpp	\
+                   ../../Classes/RandomStageScene.cpp \
                    ../../Classes/RealTableView.cpp \
                    ../../Classes/StageScene.cpp	\
                    ../../Classes/StageData.cpp \

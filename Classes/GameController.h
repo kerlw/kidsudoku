@@ -17,11 +17,13 @@ class CampaignData;
 
 class GameController: public Ref {
 public:
-	enum SceneType {
+	enum class SceneType {
 		eMainScene,
+		eRandomStageScene,
 		eCampaignScene,
 		eStageScene,
 	};
+
 public:
 	virtual ~GameController();
 

@@ -119,6 +119,7 @@ set(GAME_SRC
   Classes/AppDelegate.cpp
   Classes/MainScene.cpp
   Classes/CampaignScene.cpp
+  Classes/RandomStageScene.cpp
   Classes/RealTableView.cpp
   Classes/GameController.cpp
   Classes/NumberBar.cpp
@@ -134,6 +135,7 @@ set(GAME_HEADERS
   Classes/AppDelegate.h
   Classes/MainScene.h
   Classes/CampaignScene.h
+  Classes/RandomStageScene.h
   Classes/RealTableView.h
   Classes/Const.h 
   Classes/Lock.h 

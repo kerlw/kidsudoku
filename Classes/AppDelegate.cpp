@@ -52,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	DataFileHelper::getInstance()->installPackedData();
     DataFileHelper::getInstance()->loadInternalData();
-    GameController::getInstance()->enterScene(GameController::eMainScene);
+    GameController::getInstance()->enterScene(GameController::SceneType::eMainScene);
 
     return true;
 }

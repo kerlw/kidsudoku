@@ -52,12 +52,28 @@ bool MainScene::init() {
 	btnCampaign->setCapInsets(Rect(15, 15, 4, 4));
 	btnCampaign->setTitleText("Campaign");
 	btnCampaign->setTitleFontSize(40);
-	btnCampaign->setContentSize(Size(230, 100));
+	btnCampaign->setContentSize(Size(300, 90));
 	btnCampaign->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			 	 	 	   	 	  labelAnn->getPosition().y - labelAnn->getContentSize().height / 2 - 130 - btnCampaign->getContentSize().height/2)
+			 	 	 	   	 	  labelAnn->getPosition().y - labelAnn->getContentSize().height / 2 - 80 - btnCampaign->getContentSize().height/2)
 							);
 	btnCampaign->addClickEventListener(CC_CALLBACK_1(MainScene::onMenuCampaignClicked, this));
 	this->addChild(btnCampaign, 1);
+
+
+	//Campaign Button
+	auto btnRandom = ui::Button::create("btn-menu-0.png",
+											  "btn-menu-1.png",
+											  "btn-menu-2.png");
+	btnRandom->setScale9Enabled(true);
+	btnRandom->setCapInsets(Rect(15, 15, 4, 4));
+	btnRandom->setTitleText("Random Stage");
+	btnRandom->setTitleFontSize(40);
+	btnRandom->setContentSize(Size(300, 90));
+	btnRandom->setPosition(Vec2(origin.x + visibleSize.width / 2,
+								btnCampaign->getPosition().y - btnCampaign->getContentSize().height / 2 - 20 - btnRandom->getContentSize().height/2)
+							);
+	btnRandom->addClickEventListener(CC_CALLBACK_1(MainScene::onMenuRandomStageClicked, this));
+	this->addChild(btnRandom, 1);
 
 	//Exit Button
 	auto btnExit = ui::Button::create("btn-menu-0.png",
@@ -67,9 +83,9 @@ bool MainScene::init() {
 	btnExit->setCapInsets(Rect(15, 15, 4, 4));
 	btnExit->setTitleText("Exit");
 	btnExit->setTitleFontSize(40);
-	btnExit->setContentSize(Size(230, 100));
+	btnExit->setContentSize(Size(300, 90));
 	btnExit->setPosition(Vec2(origin.x + visibleSize.width / 2,
-							  btnCampaign->getPosition().y - btnCampaign->getContentSize().height / 2 - 20 - btnExit->getContentSize().height/2)
+							  btnRandom->getPosition().y - btnRandom->getContentSize().height / 2 - 20 - btnExit->getContentSize().height/2)
 							);
 	btnExit->addClickEventListener(CC_CALLBACK_1(MainScene::onMenuExitClicked, this));
 	this->addChild(btnExit, 1);
@@ -77,7 +93,11 @@ bool MainScene::init() {
 }
 
 void MainScene::onMenuCampaignClicked(Ref* pSender) {
-	GameController::getInstance()->enterScene(GameController::eCampaignScene);
+	GameController::getInstance()->enterScene(GameController::SceneType::eCampaignScene);
+}
+
+void MainScene::onMenuRandomStageClicked(Ref* pSender) {
+	GameController::getInstance()->enterScene(GameController::SceneType::eRandomStageScene);
 }
 
 void MainScene::onMenuExitClicked(Ref* pSender) {

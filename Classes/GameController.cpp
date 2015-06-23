@@ -8,6 +8,7 @@
 #include "GameController.h"
 #include "MainScene.h"
 #include "CampaignScene.h"
+#include "RandomStageScene.h"
 #include "StageScene.h"
 #include "StageData.h"
 #include "CampaignData.h"
@@ -61,13 +62,16 @@ void GameController::enterScene(const SceneType& eType) {
 
 	Layer* layer = nullptr;
 	switch (eType) {
-	case eMainScene:
+	case SceneType::eMainScene:
 		layer = MainScene::create();
 		break;
-	case eCampaignScene:
+	case SceneType::eCampaignScene:
 		layer = CampaignScene::create(m_pCampaign);
 		break;
-	case eStageScene:
+	case SceneType::eRandomStageScene:
+		layer = RandomStageScene::create();
+		break;
+	case SceneType::eStageScene:
 	{
 		auto data = m_pCampaign->currentStageData();
 		layer = StageScene::create(data);
