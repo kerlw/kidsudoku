@@ -115,6 +115,6 @@ void CampaignDataSource::onBtnStageClicked(Ref* pSender) {
 	long index = cell->getIdx();
 	m_pData->setCurrentIndex(index);
 
-	GameController::getInstance()->enterScene(GameController::eStageScene);
+	GameController::getInstance()->enterScene(GameController::SceneType::eStageScene);
 }
 

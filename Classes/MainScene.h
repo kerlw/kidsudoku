@@ -21,6 +21,7 @@ public:
 	virtual bool init() override;
 
 	void onMenuCampaignClicked(Ref* pSender);
+	void onMenuRandomStageClicked(Ref* pSender);
 	void onMenuExitClicked(Ref* pSender);
 protected:
 };
