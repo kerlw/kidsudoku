@@ -20,6 +20,7 @@ RandomStageScene::RandomStageScene() {
 	m_vctDifficulty.push_back("Easy");
 	m_vctDifficulty.push_back("Normal");
 	m_vctDifficulty.push_back("Hard");
+	m_vctDifficulty.push_back("Evil");
 
 	m_iIndexSize = 0;
 	m_iIndexDifficulty = 0;

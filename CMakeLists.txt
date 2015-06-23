@@ -117,6 +117,7 @@ include_directories(
 
 set(GAME_SRC
   Classes/AppDelegate.cpp
+  Classes/SudokuUtil.cpp
   Classes/MainScene.cpp
   Classes/CampaignScene.cpp
   Classes/RandomStageScene.cpp
@@ -133,6 +134,7 @@ set(GAME_SRC
 
 set(GAME_HEADERS
   Classes/AppDelegate.h
+  Classes/SudokuUtil.h
   Classes/MainScene.h
   Classes/CampaignScene.h
   Classes/RandomStageScene.h
