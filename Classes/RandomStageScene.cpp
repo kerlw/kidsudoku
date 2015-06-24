@@ -7,15 +7,24 @@
 
 #include "RandomStageScene.h"
 #include "GameController.h"
+#include "SudokuUtil.h"
+#include "StageData.h"
+#include "CampaignData.h"
 
 #include "ui/UIButton.h"
 
+static const int NUMBER_OF_BOX_SIZE = 5;
+static const struct BoxSizeData g_boxes[NUMBER_OF_BOX_SIZE] = {
+		{"3x3", 1, 3, 3, 1},
+		{"4x4", 2, 2, 2, 2},
+		{"6x6", 2, 3, 3, 2},
+		{"8x8", 2, 4, 4, 2},
+		{"9x9", 3, 3, 3, 3},
+};
+
 RandomStageScene::RandomStageScene() {
-	m_vctSize.push_back("3x3");
-	m_vctSize.push_back("4x4");
-	m_vctSize.push_back("6x6");
-	m_vctSize.push_back("8x8");
-	m_vctSize.push_back("9x9");
+	for (int i = 0; i < NUMBER_OF_BOX_SIZE; i++)
+		m_vctSize.push_back(g_boxes[i].desc);
 
 	m_vctDifficulty.push_back("Easy");
 	m_vctDifficulty.push_back("Normal");
@@ -27,7 +36,6 @@ RandomStageScene::RandomStageScene() {
 }
 
 RandomStageScene::~RandomStageScene() {
-	// TODO Auto-generated destructor stub
 }
 
 bool RandomStageScene::init() {
@@ -128,5 +136,17 @@ void RandomStageScene::menuBackCallback(Ref* pSender) {
 }
 
 void RandomStageScene::onBtnGoClicked(Ref* pSender) {
+	auto  generator = SudokuGenerator::getInstance();
+	generator->setPuzzleDifficulty(static_cast<Difficulty>(m_iIndexDifficulty));
+	generator->setSize(g_boxes[m_iIndexSize].rows_per_grid, g_boxes[m_iIndexSize].cols_per_grid,
+				g_boxes[m_iIndexSize].grids_in_row, g_boxes[m_iIndexSize].grids_in_col);
 
+	if (generator->generate()) {
+		auto data = StageData::create(g_boxes[m_iIndexSize].rows_per_grid, g_boxes[m_iIndexSize].cols_per_grid,
+									g_boxes[m_iIndexSize].grids_in_row, g_boxes[m_iIndexSize].grids_in_col,
+									generator->getPuzzle());
+		auto campaign = CampaignData::createRandomCampaign(data);
+		GameController::getInstance()->setCampaignData(campaign);
+		GameController::getInstance()->enterScene(GameController::SceneType::eStageScene);
+	}
 }

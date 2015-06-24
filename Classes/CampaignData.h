@@ -13,7 +13,8 @@
 #include <string>
 #include <vector>
 
-typedef struct _uuid {
+class uuid {
+public:
 	unsigned int uuid1;
 	unsigned int uuid2;
 	unsigned int uuid3;
@@ -24,7 +25,15 @@ typedef struct _uuid {
 		sprintf(buff, "%04X-%04X-%04X-%04X", uuid1, uuid2, uuid3, uuid4);
 		return std::string(buff);
 	}
-} uuid;
+
+	uuid& operator=(const uuid& dst) {
+		this->uuid1 = dst.uuid1;
+		this->uuid2 = dst.uuid2;
+		this->uuid3 = dst.uuid3;
+		this->uuid4 = dst.uuid4;
+		return *this;
+	}
+};
 
 class StageData;
 
@@ -65,6 +74,8 @@ public:
 	static CampaignData* loadFromData(const std::string& path);
 	static CampaignData* loadFromFile(const std::string& path);
 
+	static CampaignData* createRandomCampaign(StageData* data);
+
 protected:
 	uuid m_uuid;
 	std::vector<StageData*> m_vctData;
@@ -72,6 +83,7 @@ protected:
 
 public:
 	static const uuid INTERNAL_CAMPAIGN_UUID;
+	static const uuid RANDOM_CAMPAIGN_UUID;
 };
 
 //TODO lazy

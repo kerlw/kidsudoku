@@ -15,6 +15,15 @@
 #define MAX_NUMBER 9
 
 #include <stdlib.h>
+#include <cstdint>
+#include <vector>
+
+enum class Difficulty {
+	Easy = 0,
+	Normal,
+	Hard,
+	Evil
+};
 
 class SudokuSolver {
     friend class SudokuGenerator;
@@ -26,7 +35,15 @@ public:
     void setSize(short rows_per_grid, short cols_per_grid, short grids_in_row, short grids_in_col);
 
     void setNumber(int r, int c, int value);
-    void unsetNumber(int row, int col);
+    int unsetNumber(int row, int col, bool exclude = false);
+
+    short numbers() { return m_uNumbers; }
+    short gridRows() { return m_uGridRows;	}
+    short gridCols() { return m_uGridCols;	}
+    short gridsInRow() { return m_uGridsInRow;	}
+    short gridsInCol() { return m_uGridsInCol;	}
+    short rows() { return m_uRows;	}
+    short cols() { return m_uCols;	}
 
     void setMaxSolutionCount(int value) {
         m_iMaxSCount = value;
@@ -39,6 +56,7 @@ public:
 
 private:
     SudokuSolver();
+    SudokuSolver(const SudokuSolver* solver);
 
     void initConstraints();
     int search(int k, bool oneShot = true);
@@ -56,9 +74,9 @@ private:
         return 0;
     }
 
-    void printBox(){};
+    void printBox();
 
-private:
+protected:
     int m_iMaxSCount;
 
     unsigned short m_uMask;
@@ -87,15 +105,29 @@ class CellDigger {
 public:
 	virtual void doFirstDig() = 0;
 
-	CellDigger(SudokuSolver* solver) : m_pSolver(solver) {}
-	virtual ~CellDigger() {};
-	unsigned char* getPuzzle();
+	CellDigger(SudokuSolver* solver);
+	virtual ~CellDigger();
+	unsigned char* getPuzzle() { return m_pPuzzle;	}
+
+	bool tryDig();
+
+	static CellDigger* create(SudokuSolver* solver, Difficulty& difficulty);
+
+protected:
+	virtual void prepare();
+	bool dig(int pos);
+	bool tryDig(int pos);
 
 protected:
 	SudokuSolver* m_pSolver;
-	unsigned char* m_pSolution;
-	unsigned char* m_pPuzzle;
-	unsigned char* m_pDiggable;
+	std::uint8_t* m_pSolution;
+	std::uint8_t m_pPuzzle[MAX_CELLS];
+	std::uint8_t m_pDiggable[MAX_CELLS];
+	std::vector<int> m_vctPos;
+
+	short m_sMaxKeeps;	//the maximum number of cells to keep
+	short m_sMinKeeps;	//the minimum number of cells to keep
+	short m_sKeeps;
 };
 
 class SudokuGenerator {
@@ -104,11 +136,11 @@ public:
     virtual ~SudokuGenerator() {}
 
     void setSize(short rows_per_grid, short cols_per_grid, short grids_in_row, short grids_in_col);
-    void setPuzzleDifficulty(int difficulty);
-    bool generateBox();
-    bool digoutPuzzle();
-    unsigned char* getSolution() { return m_solver.m_pSolution; }
-    unsigned char* getPuzzle() {
+    void setPuzzleDifficulty(Difficulty difficulty);
+
+    bool generate();
+    std::uint8_t* getSolution() { return m_solver.m_pSolution; }
+    std::uint8_t* getPuzzle() {
     	if (m_pDigger)
     		return m_pDigger->getPuzzle();
     	return nullptr;
@@ -116,19 +148,42 @@ public:
 
 private:
     SudokuGenerator() : m_pDigger(nullptr) {}
+    bool generateBox();
 
 private:
+    Difficulty m_eDifficulty;
     SudokuSolver m_solver;
     CellDigger* m_pDigger;
 };
 
+class CellDiggerRandom : public CellDigger {
+public:
+	CellDiggerRandom(SudokuSolver* solver) : CellDigger(solver) {}
+	virtual void doFirstDig() override;
+
+protected:
+	virtual void prepare() override;
+};
 
 class CellDiggerOneByOne : public CellDigger {
+public:
+	CellDiggerOneByOne(SudokuSolver* solver) : CellDigger(solver) {}
 	virtual void doFirstDig() override;
+
+protected:
+	virtual void prepare() override;
 };
 
 class CellDiggerByNumber : public CellDigger {
+public:
+	CellDiggerByNumber(SudokuSolver* solver) : CellDigger(solver) {}
 	virtual void doFirstDig() override;
+
+protected:
+	virtual void prepare() override;
+
+private:
+	short m_pNumberPos[MAX_CELLS];
 };
 
 #endif // __SUDOKU_UTIL__

@@ -93,6 +93,7 @@ bool MainScene::init() {
 }
 
 void MainScene::onMenuCampaignClicked(Ref* pSender) {
+//	GameController::getInstance()->setCampaignData()
 	GameController::getInstance()->enterScene(GameController::SceneType::eCampaignScene);
 }
 

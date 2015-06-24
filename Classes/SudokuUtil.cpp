@@ -36,6 +36,29 @@ SudokuSolver::SudokuSolver()
     memset(m_pSolution, 0, MAX_CELLS);
 }
 
+SudokuSolver::SudokuSolver(const SudokuSolver* solver) {
+    m_iMaxSCount = solver->m_iMaxSCount;
+    m_uMask = solver->m_uMask;
+
+    m_uNumbers = solver->m_uNumbers;
+    m_uRows = solver->m_uRows;
+    m_uCols = solver->m_uCols;
+
+    m_uGridRows = solver->m_uGridRows;
+    m_uGridCols = solver->m_uGridCols;
+
+    m_uGridsInRow = solver->m_uGridsInRow;
+    m_uGridsInCol = solver->m_uGridsInCol;
+
+    m_iSolutionCount = solver->m_iSolutionCount;
+    memcpy(m_pSolution, solver->m_pSolution, MAX_CELLS);
+
+    memcpy(m_pRowConstraints, solver->m_pRowConstraints, sizeof(unsigned short) * MAX_ROWS);
+    memcpy(m_pColConstraints, solver->m_pColConstraints, sizeof(unsigned short) * MAX_COLS);
+    memcpy(m_pBlockConstraints, solver->m_pBlockConstraints, sizeof(unsigned short) * MAX_BLOCKS);
+    memcpy(m_pCellConstraints, solver->m_pCellConstraints, sizeof(unsigned short) * MAX_CELLS);
+}
+
 SudokuSolver::~SudokuSolver() {
 }
 
@@ -152,23 +175,27 @@ void SudokuSolver::setNumber(int row, int col, int value) {
     m_pCellConstraints[row*m_uCols + col] |= PRESET_BIT;
 }
 
-void SudokuSolver::unsetNumber(int row, int col) {
+int SudokuSolver::unsetNumber(int row, int col, bool exclude /* = false*/) {
     if (m_pSolution[row*m_uCols + col] == 0)
-        return;
+        return 0;
 
     int value = m_pSolution[row*m_uCols + col];
     resume(row, col, value);
-    m_pCellConstraints[row*m_uCols + col] = m_uMask;
+	m_pCellConstraints[row*m_uCols + col] = m_uMask;
+    if (exclude)
+    	m_pCellConstraints[row*m_uCols + col] ^= (1 << (value - 1));
+    return value;
 }
 
-//void SudokuSolver::printBox() {
-//    for (int i = 0; i < m_uCols * m_uRows; i++) {
-//        if (i % m_uCols == 0)
-//            std::cout << std::endl;
-//        std::cout << int(m_pSolution[i]) << " ";
-//    }
-//    std::cout << std::endl;
-//}
+#include <iostream>
+void SudokuSolver::printBox() {
+    for (int i = 0; i < m_uCols * m_uRows; i++) {
+        if (i % m_uCols == 0)
+            std::cout << std::endl;
+        std::cout << int(m_pSolution[i]) << " ";
+    }
+    std::cout << std::endl;
+}
 
 SudokuGenerator* SudokuGenerator::getInstance() {
     if (!s_pGenerator) {
@@ -242,23 +269,112 @@ label_random:
     if (m_solver.m_iSolutionCount <= 0)
         goto label_random;
 
+    m_solver.printBox();
     return true;
 }
 
-bool SudokuGenerator::digoutPuzzle() {
-	if (!m_pDigger)
+void SudokuGenerator::setPuzzleDifficulty(Difficulty difficulty) {
+	if (difficulty == m_eDifficulty)
+		return;
+
+	m_eDifficulty = difficulty;
+	if (m_pDigger) {
+		delete m_pDigger;
+		m_pDigger = nullptr;
+	}
+}
+
+bool SudokuGenerator::generate() {
+	if (m_pDigger) {
+		delete m_pDigger;
+		m_pDigger = nullptr;
+	}
+
+	if (!generateBox())
 		return false;
 
+	CellDigger* digger = CellDigger::create(&m_solver, m_eDifficulty);
+	if (!digger || !digger->tryDig())
+		return false;
+
+	m_pDigger = digger;
 	return true;
 }
 
 
 //////////////////////////////////////////////////////////////////////////////
 // Cell Digger Implemention
+CellDigger::CellDigger(SudokuSolver* solver)
+	:m_pSolver(solver) {
+	m_pSolution = solver->m_pSolution;
+	memset(m_pPuzzle, 0, MAX_CELLS);
+	memset(m_pDiggable, 1, MAX_CELLS);
+	m_sKeeps = solver->m_uCols * solver->m_uRows;
+}
+
+CellDigger::~CellDigger() {
+}
+
+void CellDigger::prepare() {
+	for (int i = 0; i < m_sKeeps; i++)
+		m_vctPos.push_back(i);
+}
+
+CellDigger* CellDigger::create(SudokuSolver* solver, Difficulty& difficulty) {
+	CellDigger* digger = nullptr;
+	if (!solver)
+		return digger;
+
+	int cells = solver->m_uCols * solver->m_uRows;
+
+	switch (difficulty) {
+	case Difficulty::Easy:
+		digger = new CellDiggerRandom(solver);
+		digger->m_sMaxKeeps = cells - (cells < 10 ? 15 : 5) / 10;
+		digger->m_sMinKeeps = cells - (cells * 2 + 5) / 10;
+		break;
+	case Difficulty::Evil:
+		digger = new CellDiggerByNumber(solver);
+		break;
+	}
+
+	return digger;
+}
+
+bool CellDigger::tryDig() {
+	prepare();
+	doFirstDig();
+
+	while (!m_vctPos.empty()) {
+
+	}
+}
+
+void CellDiggerRandom::doFirstDig() {
+	int pos = rand() % m_pSolver->numbers();
+	m_pSolver->unsetNumber(pos / m_pSolver->cols(), pos % m_pSolver->cols());
+}
+
+void CellDiggerRandom::prepare() {
+	CellDigger::prepare();
+
+	for (int i = 0; i < m_sKeeps; i++) {
+		std::swap(m_vctPos[rand() % m_sKeeps], m_vctPos[rand() % m_sKeeps]);
+	}
+}
+
 void CellDiggerOneByOne::doFirstDig() {
 
 }
 
+void CellDiggerOneByOne::prepare() {
+
+}
+
 void CellDiggerByNumber::doFirstDig() {
+
+}
+
+void CellDiggerByNumber::prepare() {
 
 }

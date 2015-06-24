@@ -48,8 +48,7 @@ CC_CONSTRUCTOR_ACCESS:
 	void setNumber(int pos, int value);
 
 private:
-	int* m_pOrgData;
-	int* m_pData;
+	std::uint8_t* m_pData;
 	int m_iCols;
 	int m_iRows;
 	StageData m_stagedata;

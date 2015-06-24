@@ -9,13 +9,11 @@
 #include "Const.h"
 
 SudokuBox::SudokuBox()
-	: m_pData(nullptr),
-	  m_pOrgData(nullptr) {
+	: m_pData(nullptr) {
 }
 
 SudokuBox::~SudokuBox() {
 	CC_SAFE_DELETE_ARRAY(m_pData);
-	CC_SAFE_DELETE_ARRAY(m_pOrgData);
 }
 
 SudokuBox* SudokuBox::create() {
@@ -49,14 +47,12 @@ bool SudokuBox::initWithStageData(const StageData& data) {
 	this->setContentSize(Size(m_iCols * CELL_SIZE, m_iRows * CELL_SIZE));
 
 	int len = m_iCols * m_iRows;
-	m_pData = new int[len];
-	m_pOrgData = new int[len];
+	m_pData = new std::uint8_t[len];
 
-	memcpy(m_pData, data.cell_data, len * sizeof(int));
-	memcpy(m_pOrgData, data.cell_data, len * sizeof(int));
+	memcpy(m_pData, data.cell_data, len);
 
 	for (int index = 0; index < len; index++) {
-		int value = m_pOrgData[index] - 1;
+		int value = data.cell_data[index] - 1;
 		if (value < 0 || value >= 9)
 			continue;
 
@@ -89,7 +85,7 @@ void SudokuBox::onItemDragedAtPoint(const Vec2& point, int numberIndex) {
 	//calculate the position in box for this point.
 	int pos = m_iCols * (m_iRows - ((int)point.y / CELL_SIZE) - 1) + ((int) point.x / CELL_SIZE);
 //	log("calculated the pos is %d", pos);
-	if (m_pOrgData[pos] <= 0) {
+	if (m_stagedata.cell_data[pos] <= 0) {
 		// if not changed, return
 		if (m_pData[pos] == numberIndex + 1)
 			return;
@@ -297,7 +293,7 @@ void SudokuBox::onDraw(const Mat4& transform) {
 }
 
 void SudokuBox::reset() {
-	memcpy(m_pData, m_pOrgData, sizeof(int) * m_iCols * m_iRows);
+	memcpy(m_pData, m_stagedata.cell_data, m_iCols * m_iRows);
 
 	auto it = m_mapSprites.begin();
 	while (it != m_mapSprites.end()) {

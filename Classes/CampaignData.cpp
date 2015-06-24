@@ -15,6 +15,7 @@ USING_NS_CC;
 
 static DataFileHelper* s_pDataFileHelper = nullptr;
 const uuid CampaignData::INTERNAL_CAMPAIGN_UUID = {0,0,0,0};
+const uuid CampaignData::RANDOM_CAMPAIGN_UUID = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
 
 CampaignData* CampaignData::loadFromData(const std::string& path) {
 	auto campaign = new (std::nothrow) CampaignData();
@@ -51,8 +52,8 @@ CampaignData* CampaignData::loadFromData(const std::string& path) {
 		stage->numbers = stage->cols_per_grid * stage->rows_per_grid;
 
 		int cells = stage->numbers * stage->grids_in_col * stage->grids_in_row;
-		stage->cell_data = new int[cells];
-		memset(stage->cell_data, 0, sizeof(int) * cells);
+		stage->cell_data = new std::uint8_t[cells];
+		memset(stage->cell_data, 0, cells);
 
 		cells = data[pos++];
 		cells |= (data[pos++] << 8);
@@ -99,8 +100,8 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 		stage->numbers = stage->cols_per_grid * stage->rows_per_grid;
 
 		int cells = stage->numbers * stage->grids_in_col * stage->grids_in_row;
-		stage->cell_data = new int[cells];
-		memset(stage->cell_data, 0, sizeof(int) * cells);
+		stage->cell_data = new std::uint8_t[cells];
+		memset(stage->cell_data, 0, cells);
 
 		tmp = 0;
 		fread(&tmp, 2, 1, fp);
@@ -118,6 +119,13 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 	campaign->m_iCurrentIndex = 0;
 
 	fclose(fp);
+	return campaign;
+}
+
+CampaignData* CampaignData::createRandomCampaign(StageData* data) {
+	auto campaign = new (std::nothrow) CampaignData();
+	campaign->m_uuid = RANDOM_CAMPAIGN_UUID;
+	campaign->m_vctData.push_back(data);
 	return campaign;
 }
 
@@ -240,7 +248,6 @@ PackedCampaignProcessor* PackedCampaignProcessor::createParser(const std::string
 		return nullptr;
 
 	int tmp = 0;
-	uuid id;
 	fread(&tmp, 4, 1, fp);		//length
 	fread(&tmp, 4, 1, fp);		//version
 	//XXX construct different parser according to the version

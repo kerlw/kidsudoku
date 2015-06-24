@@ -14,6 +14,14 @@
 
 USING_NS_CC;
 
+struct BoxSizeData {
+	std::string desc;
+	short rows_per_grid;
+	short cols_per_grid;
+	short grids_in_row;
+	short grids_in_col;
+};
+
 class RandomStageScene : public Layer {
 public:
 	RandomStageScene();

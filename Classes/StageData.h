@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 USING_NS_CC;
 
@@ -30,14 +31,16 @@ public:
 	int grids_in_row;
 	int grids_in_col;
 
-	int* cell_data;
+	std::uint8_t* cell_data;
 
 	bool done;
 	CampaignData* campaign;
 
 	StageData() : done(false) {}
-	virtual ~StageData() {}
+	virtual ~StageData() {	delete cell_data;	}
 	StageData& operator=(const StageData& dst);
+
+	static StageData* create(int rows_per_grid, int cols_per_grid, int grids_in_row, int grids_in_col, std::uint8_t* puzzle);
 };
 
 /**
@@ -60,7 +63,10 @@ inline StageData& StageData::operator =(const StageData& dst) {
 	this->cols_per_grid = dst.cols_per_grid;
 	this->grids_in_col = dst.grids_in_col;
 	this->grids_in_row = dst.grids_in_row;
-	this->cell_data = dst.cell_data;
+
+	int len = dst.numbers * dst.grids_in_row * dst.grids_in_col;
+	this->cell_data = new std::uint8_t[len];
+	memcpy(this->cell_data, dst.cell_data, len);
 	return *this;
 }
 

@@ -23,3 +23,18 @@ float StageDataHelper::calcScaleRatio(const StageData* data) {
 	}
 	return 1.0f;
 }
+
+StageData* StageData::create(int rows_per_grid, int cols_per_grid, int grids_in_row, int grids_in_col, std::uint8_t* puzzle) {
+	auto ret = new (std::nothrow) StageData();
+	ret->numbers = rows_per_grid * cols_per_grid;
+	ret->rows_per_grid = rows_per_grid;
+	ret->cols_per_grid = cols_per_grid;
+	ret->grids_in_row = grids_in_row;
+	ret->grids_in_col = grids_in_col;
+
+	int len = ret->numbers * grids_in_row * grids_in_col;
+	ret->cell_data = new std::uint8_t[len];
+	memcpy(ret->cell_data, puzzle, len);
+
+	return ret;
+}
