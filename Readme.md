@@ -26,8 +26,10 @@ I wanna give her a gift -- a sudoku game, but she is too young to play the real 
 	* 【done】make the game continuable, stage by stage 让游戏一关关的延续
 	* 【done】point out the error 给出错误提示
 	* 【done】load campaign or stage data from file 从文件加载战役、关卡数据
-	* 【done】add reset/undo for each stage 在关卡中增加重置/撤消支持【TODO】add bacground images to each cell 每个格子加入背景
-	* 【doing】add main scene, campaign scene 增加主界面、战役界面
+	* 【done】add reset/undo for each stage 在关卡中增加重置/撤消支持
+	* 【done】add main scene, campaign scene 增加主界面、战役界面
+	* 【done】random stage 随机生成的谜题
+	* 【TODO】add bacground images to each cell 每个格子加入背景
 + an editor for the game 完成一个编辑器
 	* 【done】edit single stage at first 从编辑单个关卡开始着手
 	* 【done】edit campaigns which is made up by stages 编辑由关卡组成的战役
@@ -36,6 +38,7 @@ I wanna give her a gift -- a sudoku game, but she is too young to play the real 
 
 ###How to compile 如何编译代码
 *  cocos2d-x 3.6 needed 需要cocos2d-x 3.6
+* need cocos2d project's public source folder 'cocos2d'  需要cocos2d工程的公共目录cocos2d
 * at the root directory of the source code, run 在代码根目录运行
 
 > cocos run -p linux
