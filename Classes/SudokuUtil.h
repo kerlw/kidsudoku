@@ -14,7 +14,10 @@
 #define MAX_CELLS 81
 #define MAX_NUMBER 9
 
+#define PRESET_BIT (1 << 15)
+
 #include <stdlib.h>
+#include <string.h>
 #include <cstdint>
 #include <vector>
 
@@ -45,6 +48,9 @@ public:
     short rows() { return m_uRows;	}
     short cols() { return m_uCols;	}
 
+    short grids() { return m_uGridsInRow * m_uGridsInCol;	}
+    short cells() { return m_uRows * m_uCols;	}
+
     void setMaxSolutionCount(int value) {
         m_iMaxSCount = value;
     }
@@ -64,6 +70,14 @@ private:
 
     bool supose(int row, int col, unsigned short number);
     void resume(int row, int col, unsigned short number);
+
+    void clearConstraint() {
+    	memset(m_pRowConstraints, 0, MAX_ROWS * sizeof(unsigned short));
+    	memset(m_pColConstraints, 0, MAX_COLS * sizeof(unsigned short));
+    	memset(m_pBlockConstraints, 0, MAX_BLOCKS * sizeof(unsigned short));
+    	for (int i = 0; i < cells(); i++)
+    		m_pCellConstraints[i] = m_uMask | PRESET_BIT;
+    }
 
     unsigned short getValue(unsigned short constraint, int index) {
         for (int i = 0; i < m_uNumbers; i++) {
@@ -101,6 +115,10 @@ protected:
 
 };
 
+/**
+ * CellDigger class, implements the dig algorithm to dig out a puzzle
+ * from a generated sudoku box.
+ */
 class CellDigger {
 public:
 	virtual void doFirstDig() = 0;
@@ -109,7 +127,7 @@ public:
 	virtual ~CellDigger();
 	unsigned char* getPuzzle() { return m_pPuzzle;	}
 
-	bool tryDig();
+	bool digoutPuzzle();
 
 	static CellDigger* create(SudokuSolver* solver, Difficulty& difficulty);
 
@@ -117,6 +135,8 @@ protected:
 	virtual void prepare();
 	bool dig(int pos);
 	bool tryDig(int pos);
+	virtual bool isDigDone() { return m_sKeeps <= m_sShouldKeep; }
+	virtual bool checkDigResult() { return m_sKeeps <= m_sShouldKeep; }
 
 protected:
 	SudokuSolver* m_pSolver;
@@ -125,8 +145,7 @@ protected:
 	std::uint8_t m_pDiggable[MAX_CELLS];
 	std::vector<int> m_vctPos;
 
-	short m_sMaxKeeps;	//the maximum number of cells to keep
-	short m_sMinKeeps;	//the minimum number of cells to keep
+	short m_sShouldKeep;	//the number of cells should to be kept
 	short m_sKeeps;
 };
 
@@ -156,34 +175,43 @@ private:
     CellDigger* m_pDigger;
 };
 
+/**
+ * Cell digger with random position strategy
+ */
 class CellDiggerRandom : public CellDigger {
 public:
 	CellDiggerRandom(SudokuSolver* solver) : CellDigger(solver) {}
-	virtual void doFirstDig() override;
+	virtual void doFirstDig() override;	//only dig out the first cell in position vector
 
 protected:
 	virtual void prepare() override;
 };
 
+/**
+ * Cell digger with one by one position strategy
+ */
 class CellDiggerOneByOne : public CellDigger {
 public:
 	CellDiggerOneByOne(SudokuSolver* solver) : CellDigger(solver) {}
-	virtual void doFirstDig() override;
+	virtual void doFirstDig() override;	//dig out the first row
 
 protected:
-	virtual void prepare() override;
+	virtual bool isDigDone() override { return false; }
+	virtual bool checkDigResult() override { return true;	}
 };
 
+/**
+ * Cell digger with number dig out one by one strategy
+ */
 class CellDiggerByNumber : public CellDigger {
 public:
 	CellDiggerByNumber(SudokuSolver* solver) : CellDigger(solver) {}
-	virtual void doFirstDig() override;
+	virtual void doFirstDig() override;	//dig out all cells with the first number(random)
 
 protected:
 	virtual void prepare() override;
-
-private:
-	short m_pNumberPos[MAX_CELLS];
+	virtual bool isDigDone() override { return false; }
+	virtual bool checkDigResult() override { return true;	}
 };
 
 #endif // __SUDOKU_UTIL__
