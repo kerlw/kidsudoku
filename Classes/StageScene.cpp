@@ -152,13 +152,15 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 		m_pBox->onItemDragedAtPoint(m_pBox->convertToNodeSpace(touch->getLocation()), m_iSelectedIndex);
 
 		//check if this stage finished
-		if (m_pBox->checkResult()) {
+		bool done = m_pBox->checkResult();
+		m_pBox->refreshErrorTipsLayer();		//finished or not, refresh error tips at first.
+		if (done) {
 			m_pData->done = true;
 			if (m_pData->campaign)
 				m_pData->campaign->saveStageStatus();
 			this->showVictoryLayer();
 		} else {
-			m_pBox->refreshErrorTipsLayer();
+			//do nothing.
 		}
 
 		this->removeChild(m_pSelectedSprite);
