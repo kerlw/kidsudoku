@@ -33,6 +33,11 @@ public:
 		this->uuid4 = dst.uuid4;
 		return *this;
 	}
+
+	bool operator==(const uuid& dst) {
+		return this->uuid1 == dst.uuid1 && this->uuid2 == dst.uuid2
+			&& this->uuid3 == dst.uuid3 && this->uuid4 == dst.uuid4;
+	}
 };
 
 class StageData;

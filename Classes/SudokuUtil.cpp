@@ -372,7 +372,7 @@ bool CellDigger::digoutPuzzle() {
 	return checkDigResult();
 }
 
-bool CellDigger::dig(int pos) {
+void CellDigger::dig(int pos) {
 	int row = pos / m_pSolver->cols();
 	int col = pos % m_pSolver->cols();
 	m_pSolver->unsetNumber(row, col, false);

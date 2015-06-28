@@ -36,7 +36,7 @@ public:
 	bool done;
 	CampaignData* campaign;
 
-	StageData() : done(false) {}
+	StageData() : done(false), campaign(nullptr) {}
 	virtual ~StageData() {	delete cell_data;	}
 	StageData& operator=(const StageData& dst);
 

@@ -176,6 +176,10 @@ void CampaignData::loadStageStatus() {
 }
 
 void CampaignData::saveStageStatus() {
+	// random stage no need to save status
+	if (m_uuid == CampaignData::RANDOM_CAMPAIGN_UUID)
+		return;
+
 	std::string key = m_uuid.toString() + KEY_SUFFIX_STAGE_STATUS;
 	std::string value = "";
 	auto it = m_vctData.begin();

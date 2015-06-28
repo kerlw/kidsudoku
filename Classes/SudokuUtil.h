@@ -133,7 +133,7 @@ public:
 
 protected:
 	virtual void prepare();
-	bool dig(int pos);
+	void dig(int pos);
 	bool tryDig(int pos);
 	virtual bool isDigDone() { return m_sKeeps <= m_sShouldKeep; }
 	virtual bool checkDigResult() { return m_sKeeps <= m_sShouldKeep; }

@@ -44,11 +44,18 @@ void GameController::nextStage() {
 	if (!m_pCampaign)
 		return;
 
+	auto data = m_pCampaign->getNextStageData();
+
+	// If there are no scenes any more, XXX should return to main scene
+	if (!data) {
+		leaveScene();
+		return;
+	}
+
     // 'scene' is an autorelease object
     auto scene = Scene::create();
 
-    auto data = m_pCampaign->getNextStageData();
-    // 'layer' is an autorelease object
+	// 'layer' is an autorelease object
     auto layer = StageScene::create(data);
 
     // add layer as a child to scene
