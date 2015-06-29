@@ -88,7 +88,7 @@ private:
         return 0;
     }
 
-    void printBox();
+//    void printBox();
 
 protected:
     int m_iMaxSCount;

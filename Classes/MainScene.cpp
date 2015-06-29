@@ -8,6 +8,7 @@
 #include "MainScene.h"
 #include "Const.h"
 #include "GameController.h"
+#include "CampaignData.h"
 
 #include "ui/UIButton.h"
 
@@ -93,7 +94,7 @@ bool MainScene::init() {
 }
 
 void MainScene::onMenuCampaignClicked(Ref* pSender) {
-//	GameController::getInstance()->setCampaignData()
+	GameController::getInstance()->setCampaignData(CampaignData::getInternalCampaign());
 	GameController::getInstance()->enterScene(GameController::SceneType::eCampaignScene);
 }
 
@@ -104,6 +105,7 @@ void MainScene::onMenuRandomStageClicked(Ref* pSender) {
 void MainScene::onMenuExitClicked(Ref* pSender) {
     Director::getInstance()->end();
 
+    CampaignData::cleanupStaticInstance();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif

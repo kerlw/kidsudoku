@@ -186,15 +186,15 @@ int SudokuSolver::unsetNumber(int row, int col, bool exclude /* = false*/) {
     return value;
 }
 
-#include <iostream>
-void SudokuSolver::printBox() {
-    for (int i = 0; i < m_uCols * m_uRows; i++) {
-        if (i % m_uCols == 0)
-            std::cout << std::endl;
-        std::cout << int(m_pSolution[i]) << " ";
-    }
-    std::cout << std::endl;
-}
+//#include <iostream>
+//void SudokuSolver::printBox() {
+//    for (int i = 0; i < m_uCols * m_uRows; i++) {
+//        if (i % m_uCols == 0)
+//            std::cout << std::endl;
+//        std::cout << int(m_pSolution[i]) << " ";
+//    }
+//    std::cout << std::endl;
+//}
 
 SudokuGenerator* SudokuGenerator::getInstance() {
     if (!s_pGenerator) {
@@ -262,13 +262,10 @@ label_random:
         ROW |= (1 << value);
     }
 
-    m_solver.printBox();
-
     m_solver.try_solve();
     if (m_solver.m_iSolutionCount <= 0)
         goto label_random;
 
-    m_solver.printBox();
     return true;
 }
 
@@ -369,8 +366,6 @@ bool CellDigger::digoutPuzzle() {
 
 		m_vctPos.erase(m_vctPos.begin());
 	}
-//	log("digout puzzle done:");
-	m_pSolver->printBox();
 	return checkDigResult();
 }
 

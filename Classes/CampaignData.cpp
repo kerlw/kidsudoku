@@ -17,6 +17,9 @@ static DataFileHelper* s_pDataFileHelper = nullptr;
 const uuid CampaignData::INTERNAL_CAMPAIGN_UUID = {0,0,0,0};
 const uuid CampaignData::RANDOM_CAMPAIGN_UUID = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
 
+static CampaignData* g_pInternalCampaign = nullptr;
+static CampaignData* g_pRandomCampaign = nullptr;
+
 CampaignData* CampaignData::loadFromData(const std::string& path) {
 	auto campaign = new (std::nothrow) CampaignData();
 	/**
@@ -122,11 +125,28 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 	return campaign;
 }
 
+CampaignData* CampaignData::getInternalCampaign() {
+	DataFileHelper::getInstance()->loadInternalData();
+	return g_pInternalCampaign;
+}
+
 CampaignData* CampaignData::createRandomCampaign(StageData* data) {
-	auto campaign = new (std::nothrow) CampaignData();
-	campaign->m_uuid = RANDOM_CAMPAIGN_UUID;
-	campaign->m_vctData.push_back(data);
-	return campaign;
+	if (!g_pRandomCampaign) {
+		g_pRandomCampaign = new (std::nothrow) CampaignData();
+		g_pRandomCampaign->m_uuid = RANDOM_CAMPAIGN_UUID;
+	} else {
+		g_pRandomCampaign->clearStageData();
+	}
+	g_pRandomCampaign->m_vctData.push_back(data);
+	return g_pRandomCampaign;
+}
+
+void CampaignData::cleanupStaticInstance() {
+	if (g_pInternalCampaign)
+		CC_SAFE_DELETE(g_pInternalCampaign);
+
+	if (g_pRandomCampaign)
+		CC_SAFE_DELETE(g_pRandomCampaign);
 }
 
 CampaignData::CampaignData()
@@ -134,11 +154,17 @@ CampaignData::CampaignData()
 }
 
 CampaignData::~CampaignData() {
+	clearStageData();
+}
+
+void CampaignData::clearStageData() {
 	auto it = m_vctData.begin();
 	while (it != m_vctData.end()) {
 		delete *it;
+		it++;
 	}
 	m_vctData.clear();
+	m_iCurrentIndex = -1;
 }
 
 StageData* CampaignData::currentStageData() {
@@ -219,15 +245,17 @@ DataFileHelper::DataFileHelper() {
 }
 
 void DataFileHelper::loadInternalData() {
+	if (g_pInternalCampaign)
+		return;
+
 	FileUtils* futils = FileUtils::getInstance();
 	const std::string path = futils->fullPathForFilename("data/campaign.dat");
 	log("data path is %s", path.c_str());
 	if (!futils->isFileExist(path))
 		return;
 
-	auto campaign = CampaignData::loadFromData(path);
-	campaign->loadStageStatus();
-	GameController::getInstance()->setCampaignData(campaign);
+	g_pInternalCampaign = CampaignData::loadFromData(path);
+	g_pInternalCampaign->loadStageStatus();
 }
 
 bool DataFileHelper::installPackedData() {

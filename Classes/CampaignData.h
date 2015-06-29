@@ -76,10 +76,15 @@ public:
 	void loadStageStatus();
 	void saveStageStatus();
 
+	void clearStageData();
+
 	static CampaignData* loadFromData(const std::string& path);
 	static CampaignData* loadFromFile(const std::string& path);
 
+	static CampaignData* getInternalCampaign();
 	static CampaignData* createRandomCampaign(StageData* data);
+
+	static void cleanupStaticInstance();
 
 protected:
 	uuid m_uuid;

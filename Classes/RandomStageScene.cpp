@@ -136,7 +136,7 @@ void RandomStageScene::menuBackCallback(Ref* pSender) {
 }
 
 void RandomStageScene::onBtnGoClicked(Ref* pSender) {
-	auto  generator = SudokuGenerator::getInstance();
+	auto generator = SudokuGenerator::getInstance();
 	generator->setPuzzleDifficulty(static_cast<Difficulty>(m_iIndexDifficulty));
 	generator->setSize(g_boxes[m_iIndexSize].rows_per_grid, g_boxes[m_iIndexSize].cols_per_grid,
 				g_boxes[m_iIndexSize].grids_in_row, g_boxes[m_iIndexSize].grids_in_col);

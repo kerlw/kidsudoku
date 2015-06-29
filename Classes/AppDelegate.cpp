@@ -54,7 +54,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	cache->addSpriteFramesWithFile("fruits.plist");
 
 	DataFileHelper::getInstance()->installPackedData();
-    DataFileHelper::getInstance()->loadInternalData();
     GameController::getInstance()->enterScene(GameController::SceneType::eMainScene);
 
     return true;
