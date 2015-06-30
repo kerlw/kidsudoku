@@ -45,6 +45,7 @@ protected:
     float m_fScaleRatio;
 
     Lock m_lock;
+    bool m_bVictoryShowing;
 };
 
 #endif // __STAGE_SCENE_H__

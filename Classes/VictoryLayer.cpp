@@ -43,7 +43,6 @@ bool VictoryLayer::init() {
 }
 
 void VictoryLayer::onContinueClicked(Ref* ref) {
-	log("clicked");
 	auto parent= this->getParent();
 	if (parent)
 		parent->removeChild(this);

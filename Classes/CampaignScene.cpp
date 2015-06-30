@@ -90,7 +90,6 @@ TableViewCell* CampaignDataSource::tableCellAtIndex(RealTableView *table, ssize_
 	cell->addChild(btn);
 
 	if (m_pData->isStageDone(idx)) {
-		log("%d is done", idx);
 		auto doneImg = ui::ImageView::create("finished.png");
 		doneImg->setPosition(Vec2(120 - doneImg->getContentSize().width / 2, doneImg->getContentSize().height / 2));
 		cell->addChild(doneImg, 1);

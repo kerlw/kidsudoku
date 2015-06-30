@@ -8,6 +8,8 @@
 #ifndef CONST_H_
 #define CONST_H_
 
+static const char* DEFAULT_SPRITE = "numbers.plist";
+
 static const char* KEYNAME_EXTERNAL_DATA_PATH = "external_data_path";
 
 static const char* KEY_SUFFIX_STAGE_STATUS = "_stage_status";

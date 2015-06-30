@@ -91,7 +91,7 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 
 	fread(&tmp, 4, 1, fp);
 	int count = tmp;
-	log("there are %d stages in this file.", count);
+//	log("there are %d stages in this file.", count);
 	for (int i = 0; i < count; i++) {
 		auto stage = new (std::nothrow) StageData();
 		fread(&tmp, 4, 1, fp);
@@ -109,7 +109,7 @@ CampaignData* CampaignData::loadFromFile(const std::string& path) {
 		tmp = 0;
 		fread(&tmp, 2, 1, fp);
 		cells = tmp;
-		log(" has %d known cells", cells);
+//		log(" has %d known cells", cells);
 		for (int j = 0; j < cells; j++) {
 			tmp = 0;
 			fread(&tmp, 2, 1, fp);
@@ -230,7 +230,7 @@ DataFileHelper::DataFileHelper() {
 	if (path.length() == 0) {
 		path = futils->getWritablePath();
 	}
-    log("external data path is %s", m_strDataPath.c_str());
+//    log("external data path is %s", m_strDataPath.c_str());
 
     m_strDataPath = path + "/" + PATH_DATA;
     m_strResPath = path + "/" + PATH_RESOURCE;
@@ -250,7 +250,6 @@ void DataFileHelper::loadInternalData() {
 
 	FileUtils* futils = FileUtils::getInstance();
 	const std::string path = futils->fullPathForFilename("data/campaign.dat");
-	log("data path is %s", path.c_str());
 	if (!futils->isFileExist(path))
 		return;
 

@@ -1,4 +1,5 @@
 #include "AppDelegate.h"
+#include "Const.h"
 #include "GameController.h"
 #include "CampaignData.h"
 
@@ -33,7 +34,9 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+	// initialize random seed
 	srand(time(0));
+
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -51,7 +54,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     auto cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("fruits.plist");
+	cache->addSpriteFramesWithFile(DEFAULT_SPRITE);
 
 	DataFileHelper::getInstance()->installPackedData();
     GameController::getInstance()->enterScene(GameController::SceneType::eMainScene);

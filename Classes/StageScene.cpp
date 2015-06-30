@@ -25,7 +25,8 @@ StageScene::StageScene(StageData* data) :
 		m_pData(data),
 		m_pBar(nullptr),
 		m_pSelectedSprite(nullptr),
-		m_iSelectedIndex(-1) {
+		m_iSelectedIndex(-1),
+		m_bVictoryShowing(false) {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(StageScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(StageScene::onTouchMoved, this);
@@ -52,7 +53,7 @@ bool StageScene::init() {
 	if (m_pData->plt_file.length() > 0) {
 		cache->removeSpriteFrames();
 		cache->addSpriteFramesWithFile(m_pData->plt_file, m_pData->res_file);
-		cache->addSpriteFramesWithFile("fruits.plist");	//TODO hard code fruits as default res
+		cache->addSpriteFramesWithFile(DEFAULT_SPRITE);
 	}
 
 	//add Number Bar to scene
@@ -112,8 +113,8 @@ void StageScene::menuBackCallback(Ref* pSender) {
 
 bool StageScene::onTouchBegan(Touch *touch, Event *unused_event) {
 	AutoLock lock(m_lock);
-	//if has a sprite selected, ignore this touch event
-	if (m_pSelectedSprite) {
+	//if has a sprite selected or is showing victory layer, ignore this touch event
+	if (m_pSelectedSprite || m_bVictoryShowing) {
 		return false;
 	}
 
@@ -147,6 +148,9 @@ void StageScene::onTouchMoved(Touch *touch, Event *unused_event) {
 
 void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 	AutoLock lock(m_lock);
+	if (m_bVictoryShowing)
+		return;
+
 	if (m_pSelectedSprite && m_pBox) {
 		//touch up, insert a item in SudokuBox in need.
 		m_pBox->onItemDragedAtPoint(m_pBox->convertToNodeSpace(touch->getLocation()), m_iSelectedIndex);
@@ -171,6 +175,9 @@ void StageScene::onTouchEnded(Touch *touch, Event *unused_event) {
 
 void StageScene::onTouchCancelled(Touch *touch, Event *unused_event) {
 	AutoLock lock(m_lock);
+	if (m_bVictoryShowing)
+		return;
+
 	if (m_pSelectedSprite) {
 		//remove dragable sprite and clear the selected sprite index.
 		this->removeChild(m_pSelectedSprite);
@@ -180,6 +187,11 @@ void StageScene::onTouchCancelled(Touch *touch, Event *unused_event) {
 }
 
 void StageScene::showVictoryLayer() {
+	if (m_bVictoryShowing)
+		return;
+
+	m_bVictoryShowing = true;
+
 	auto director = Director::getInstance();
 	Size visibleSize = director->getVisibleSize();
 	Vec2 origin = director->getVisibleOrigin();
