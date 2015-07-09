@@ -54,6 +54,9 @@ bool StageScene::init() {
 		cache->removeSpriteFrames();
 		cache->addSpriteFramesWithFile(m_pData->plt_file, m_pData->res_file);
 		cache->addSpriteFramesWithFile(DEFAULT_SPRITE);
+	} else {
+		cache->removeSpriteFrames();
+		cache->addSpriteFramesWithFile(DEFAULT_SPRITE);
 	}
 
 	//add Number Bar to scene

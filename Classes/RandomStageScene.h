@@ -35,17 +35,22 @@ public:
 	void menuIncreaseSizeCallback(Ref* pSender);
 	void menuDecreaseDifficultyCallback(Ref* pSender);
 	void menuIncreaseDifficultyCallback(Ref* pSender);
+	void menuPrevResourceCallback(Ref* pSender);
+	void menuNextResourceCallback(Ref* pSender);
 	void menuBackCallback(Ref* pSender);
 	void onBtnGoClicked(Ref* pSender);
 
 protected:
 	int m_iIndexSize;
 	int m_iIndexDifficulty;
+	int m_iIndexResource;
 	std::vector<std::string> m_vctSize;
 	std::vector<std::string> m_vctDifficulty;
+	std::vector<std::string> m_vctResource;
 
 	Label* m_pLabelSize;
 	Label* m_pLabelDifficulty;
+	Label* m_pLabelResource;
 };
 
 #endif /* RANDOMSTAGESCENE_H_ */
