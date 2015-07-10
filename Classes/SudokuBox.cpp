@@ -56,7 +56,11 @@ bool SudokuBox::initWithStageData(const StageData& data) {
 		if (value < 0 || value >= 9)
 			continue;
 
-		Sprite* sprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[value]));
+		auto sprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[KNOWN_MASK_INDEX]));
+		sprite->setPosition(Vec2((index % m_iCols) * CELL_SIZE + CELL_SIZE / 2, (m_iRows - index / m_iCols) * CELL_SIZE - CELL_SIZE / 2));
+		this->addChild(sprite);
+
+		sprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[value]));
 		sprite->ignoreAnchorPointForPosition(false);
 		sprite->setAnchorPoint(Vec2(0, 1));
 		sprite->setPosition(Vec2((index % m_iCols) * CELL_SIZE, (m_iRows - index / m_iCols) * CELL_SIZE));
@@ -246,9 +250,9 @@ void SudokuBox::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) 
 }
 
 void SudokuBox::onDraw(const Mat4& transform) {
-	//if the grid has only one row/col, dont draw the grid, because the grid maybe make player be confused.
-	if (m_stagedata.rows_per_grid <= 1 || m_stagedata.cols_per_grid <= 1)
-		return;
+//	//if the grid has only one row/col, dont draw the grid, because the grid maybe make player be confused.
+//	if (m_stagedata.rows_per_grid <= 1 || m_stagedata.cols_per_grid <= 1)
+//		return;
 
 	int rows = m_stagedata.grids_in_row;
 	int cols = m_stagedata.grids_in_col;
@@ -263,12 +267,12 @@ void SudokuBox::onDraw(const Mat4& transform) {
 	CHECK_GL_ERROR_DEBUG();
 
 	//draw the grid with difference colors.
-	Color4B gridColors[] = {
-			Color4B(0, 255, 255, 255),
-			Color4B(255, 0, 255, 255)
+	Color4F gridColors[] = {
+			Color4F(0, 255, 255, 255),
+			Color4F(255, 0, 255, 255)
 		};
 
-	int linW = 3;
+	int linW = 2;
 	glLineWidth(linW);
 	Size size = getContentSize();
 	float width = size.width / cols;
@@ -276,17 +280,33 @@ void SudokuBox::onDraw(const Mat4& transform) {
 
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
-			Color4B cl = gridColors[(j+(i%2))%2];
-			DrawPrimitives::setDrawColor4B(cl.r, cl.g, cl.b, cl.a);
+			Color4F cl = gridColors[(j+(i%2))%2];
 			Vec2 vertices[] = {
 					Vec2(width*j+linW, height*i+linW),
 					Vec2(width*j+linW, height*(i+1)-linW),
 					Vec2(width*(j+1)-linW, height*(i+1)-linW),
 					Vec2(width*(j+1)-linW, height*i+linW)
 			};
-			DrawPrimitives::drawPoly(vertices, 4, true);
+			DrawPrimitives::drawSolidPoly(vertices, 4, cl);
 		}
 	}
+
+//	//draw a mask on know cell's background
+//	Color4F cellColor(0, 0, 0, 10);
+//	rows = m_stagedata.rows_per_grid * m_stagedata.grids_in_row;
+//	cols = m_stagedata.cols_per_grid * m_stagedata.grids_in_col;
+//	width = size.width / cols;
+//	height = size.height / rows;
+//	linW += 2;
+//	for (int i = 0; i < rows; i++) {
+//		for (int j = 0; j < cols; j++) {
+//			if (m_stagedata.cell_data[i * cols + j] > 0) {
+//				DrawPrimitives::drawSolidRect(Vec2(width * j + linW, size.height - height * i - linW),
+//						Vec2(width * (j+1) - linW, size.height - height * (i + 1) + linW),
+//						cellColor);
+//			}
+//		}
+//	}
 
 	CHECK_GL_ERROR_DEBUG();
 	director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);

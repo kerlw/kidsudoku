@@ -61,7 +61,7 @@ bool MainScene::init() {
 	this->addChild(btnCampaign, 1);
 
 
-	//Campaign Button
+	//Random Stage Button
 	auto btnRandom = ui::Button::create("btn-menu-0.png",
 											  "btn-menu-1.png",
 											  "btn-menu-2.png");

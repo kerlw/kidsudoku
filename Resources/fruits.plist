@@ -134,6 +134,19 @@
                 <key>sourceSize</key>
                 <string>{128,128}</string>
             </dict>
+            <key>knownbg.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{652,132},{120,120}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{120,120}}</string>
+                <key>sourceSize</key>
+                <string>{120,120}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -142,9 +155,9 @@
             <key>realTextureFileName</key>
             <string>fruits.png</string>
             <key>size</key>
-            <string>{653,262}</string>
+            <string>{774,262}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:9806df0a6c383d73be9e12e77d099900:a01d4ec6f2c53a06995e2c6dbd90f10b:56755924368b5e18801fdad7263bb90b$</string>
+            <string>$TexturePacker:SmartUpdate:03702231ee0b25ae1146284d93cc0429:f378bbc38dae6d2692b7247251fe46dd:56755924368b5e18801fdad7263bb90b$</string>
             <key>textureFileName</key>
             <string>fruits.png</string>
         </dict>
