@@ -30,7 +30,7 @@ bool SudokuBox::init() {
 	if (!Layout::init())
 		return false;
 
-	this->setBackGroundColor(Color3B(255, 255, 255));
+	this->setBackGroundColor(Color3B(0xff, 0x88, 0xff));
 	this->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
 	this->ignoreAnchorPointForPosition(false);
 	this->setAnchorPoint(Vec2(0.5, 0.5));
@@ -217,9 +217,9 @@ void SudokuBox::refreshErrorTipsLayer() {
 			auto mask = Sprite::createWithSpriteFrame(
 				SpriteFrameCache::getInstance()->getSpriteFrameByName(FRAME_NAME[ERROR_MASK_INDEX])
 				);
-			mask->ignoreAnchorPointForPosition(false);
-			mask->setAnchorPoint(Vec2(0, 1));
-			mask->setPosition(Vec2((pos % m_iCols) * CELL_SIZE, (m_iRows - pos / m_iCols) * CELL_SIZE));
+//			mask->ignoreAnchorPointForPosition(false);
+//			mask->setAnchorPoint(Vec2(0, 1));
+			mask->setPosition(Vec2((pos % m_iCols) * CELL_SIZE + CELL_SIZE / 2, (m_iRows - pos / m_iCols) * CELL_SIZE - CELL_SIZE / 2));
 			this->addChild(mask, 1);
 
 			//add the mask to the position-mask map
@@ -268,8 +268,8 @@ void SudokuBox::onDraw(const Mat4& transform) {
 
 	//draw the grid with difference colors.
 	Color4F gridColors[] = {
-			Color4F(0, 255, 255, 255),
-			Color4F(255, 0, 255, 255)
+			Color4F(0.647f, 0.972f, 0.913f, 1.0f),
+			Color4F(0.913f, 0.972f, 0.647f, 1.0f)
 		};
 
 	int linW = 2;
