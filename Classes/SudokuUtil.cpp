@@ -331,13 +331,13 @@ CellDigger* CellDigger::create(SudokuSolver* solver, Difficulty& difficulty) {
 	switch (difficulty) {
 	case Difficulty::Easy:
 		digger = new CellDiggerRandom(solver);
-		min = (cells * 2 + 5) / 10;
+		min = (cells * 3 + 5) / 10;
 		digger->m_sShouldKeep = cells - min;
 		break;
 	case Difficulty::Normal:
 		digger = new CellDiggerRandom(solver);
-		max = (cells * 5 + 5) / 10;
-		min = solver->numbers();
+		max = (cells * 6 + 5) / 10;
+		min = (cells * 3 + 5) / 10;
 		digger->m_sShouldKeep = cells - (int)(min + (pow((rand() % 1001), 1.0f/3) + 1)/ 10 * (max - min));
 		if (digger->m_sShouldKeep > cells - min)
 			digger->m_sShouldKeep = cells - min;
