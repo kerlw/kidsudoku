@@ -347,6 +347,8 @@ CellDigger* CellDigger::create(SudokuSolver* solver, Difficulty& difficulty) {
 	//CellDiggerByNumber;
 	case Difficulty::Hard:
 		digger = new CellDiggerOneByOne(solver);
+		break;
+
 	case Difficulty::Evil:
 		digger = new CellDiggerByNumber(solver);
 		break;
