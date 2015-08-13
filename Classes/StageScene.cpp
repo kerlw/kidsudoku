@@ -74,7 +74,7 @@ bool StageScene::init() {
 	this->addChild(m_pBox);
 
 	//back menu item
-    auto backItem = MenuItemImage::create("back.png", "back.png",
+    auto backItem = MenuItemImage::create("back0.png", "back1.png",
                                            CC_CALLBACK_1(StageScene::menuBackCallback, this));
 
 	backItem->setPosition(Vec2(origin.x + 10 + backItem->getContentSize().width/2 ,

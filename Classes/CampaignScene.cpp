@@ -50,7 +50,7 @@ bool CampaignScene::init() {
 	this->addChild(m_pTableStages);
 
 	//back menu item
-    auto backItem = MenuItemImage::create("back.png", "back.png",
+    auto backItem = MenuItemImage::create("back0.png", "back1.png",
                                            CC_CALLBACK_1(CampaignScene::menuBackCallback, this));
 
 	backItem->setPosition(Vec2(origin.x + backItem->getContentSize().width/2 + 10,
