@@ -81,13 +81,13 @@ bool StageScene::init() {
                                 origin.y + visibleSize.height - 10 - backItem->getContentSize().height/2));
 
 	//reset menu item
-	auto resetItem = MenuItemImage::create("reset.png", "reset.png",
+	auto resetItem = MenuItemImage::create("reset0.png", "reset1.png",
 											CC_CALLBACK_1(StageScene::menuResetCallback, this));
 	resetItem->setPosition(Vec2(origin.x + 10 + resetItem->getContentSize().width/2,
 							 origin.y + visibleSize.height - 10 - CELL_SIZE - resetItem->getContentSize().height/2));
 
 	//undo menu item
-	auto undoItem = MenuItemImage::create("undo.png", "undo.png",
+	auto undoItem = MenuItemImage::create("undo0.png", "undo1.png",
 											CC_CALLBACK_1(StageScene::menuUndoCallback, this));
 	undoItem->setPosition(Vec2(origin.x + 10 + undoItem->getContentSize().width/2,
 							 origin.y + visibleSize.height - 10 - 2*CELL_SIZE - undoItem->getContentSize().height/2));
