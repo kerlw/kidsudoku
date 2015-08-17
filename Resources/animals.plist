@@ -59,7 +59,7 @@
             <key>5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{522,2},{128,128}}</string>
+                <string>{{2,132},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,132},{128,128}}</string>
+                <string>{{132,132},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{132,132},{128,128}}</string>
+                <string>{{262,132},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>8.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{262,132},{128,128}}</string>
+                <string>{{392,132},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>9.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{392,132},{128,128}}</string>
+                <string>{{2,262},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +124,7 @@
             <key>error_mask.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{522,132},{128,128}}</string>
+                <string>{{132,262},{128,128}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>knownbg.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{652,132},{120,120}}</string>
+                <string>{{262,262},{120,120}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -147,6 +147,19 @@
                 <key>sourceSize</key>
                 <string>{120,120}</string>
             </dict>
+            <key>shelf.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{384,262},{140,140}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{140,140}}</string>
+                <key>sourceSize</key>
+                <string>{140,140}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -155,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>animals.png</string>
             <key>size</key>
-            <string>{774,262}</string>
+            <string>{526,404}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:c8853876e595c0edeb42f8da4c244eed:b72643b22c5f7acc10eaaa1ae8dbc7d5:b555298e2def54c1ec46606405ae6537$</string>
+            <string>$TexturePacker:SmartUpdate:6e2a40b9245618213496d4049ead8e49:adae29b5bdbf7fafa88c4582d2d47001:b555298e2def54c1ec46606405ae6537$</string>
             <key>textureFileName</key>
             <string>animals.png</string>
         </dict>
