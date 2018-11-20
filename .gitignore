@@ -2,3 +2,8 @@
 /bin/
 /linux-build/
 /proj.android/.settings/
+.idea
+build/
+xcuserdata/
+xcshareddata/
+project.xcworkspace/
