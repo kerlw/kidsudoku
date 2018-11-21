@@ -12,6 +12,12 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2A4403C321A503E200F4C952 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4403C221A503E200F4C952 /* CoreText.framework */; };
+		2A4403C421A526C200F4C952 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBF21A43B2500A7D644 /* back1.png */; };
+		2A4403C521A526C200F4C952 /* reset0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC221A43B2600A7D644 /* reset0.png */; };
+		2A4403C621A526C200F4C952 /* reset1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBB21A43B2500A7D644 /* reset1.png */; };
+		2A4403C721A526C200F4C952 /* undo0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC021A43B2500A7D644 /* undo0.png */; };
+		2A4403C821A526C200F4C952 /* undo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC121A43B2500A7D644 /* undo1.png */; };
 		2AEFBFC321A43B2600A7D644 /* reset1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBB21A43B2500A7D644 /* reset1.png */; };
 		2AEFBFC421A43B2600A7D644 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBF21A43B2500A7D644 /* back1.png */; };
 		2AEFBFC521A43B2600A7D644 /* undo0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC021A43B2500A7D644 /* undo0.png */; };
@@ -175,6 +181,7 @@
 		1D6058910D05DD3D006BFB54 /* kidsudoku_cpp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "kidsudoku_cpp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2A4403C221A503E200F4C952 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		2AEFBFBB21A43B2500A7D644 /* reset1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset1.png; sourceTree = "<group>"; };
 		2AEFBFBF21A43B2500A7D644 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
 		2AEFBFC021A43B2500A7D644 /* undo0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo0.png; sourceTree = "<group>"; };
@@ -281,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A4403C321A503E200F4C952 /* CoreText.framework in Frameworks */,
 				2AEFBFC921A43B4600A7D644 /* libiconv.tbd in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
@@ -370,6 +378,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A4403C221A503E200F4C952 /* CoreText.framework */,
 				2AEFBFC821A43B4600A7D644 /* libiconv.tbd */,
 				2AEFBFCA21A43B5B00A7D644 /* libiconv.tbd */,
 				8262943D1AAF051F00CB7CF7 /* Security.framework */,
@@ -668,7 +677,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A4403C521A526C200F4C952 /* reset0.png in Resources */,
 				CDDF1AF71B5DD25500ED7F03 /* animals.plist in Resources */,
+				2A4403C721A526C200F4C952 /* undo0.png in Resources */,
 				CDDF1AF81B5DD25500ED7F03 /* animals.png in Resources */,
 				CDDF1AFA1B5DD25500ED7F03 /* btn-menu-0.png in Resources */,
 				CDDF1AFB1B5DD25500ED7F03 /* btn-menu-1.png in Resources */,
@@ -679,15 +690,18 @@
 				CDDF1B001B5DD25500ED7F03 /* close.png in Resources */,
 				CDDF1B011B5DD25500ED7F03 /* data in Resources */,
 				CDDF1B021B5DD25500ED7F03 /* finished.png in Resources */,
+				2A4403C421A526C200F4C952 /* back1.png in Resources */,
 				CDDF1B031B5DD25500ED7F03 /* fonts in Resources */,
 				CDDF1B041B5DD25500ED7F03 /* fruits.plist in Resources */,
 				CDDF1B051B5DD25500ED7F03 /* fruits.png in Resources */,
 				CDDF1B061B5DD25500ED7F03 /* left-0.png in Resources */,
 				CDDF1B071B5DD25500ED7F03 /* left-1.png in Resources */,
 				CDDF1B081B5DD25500ED7F03 /* numbers.plist in Resources */,
+				2A4403C621A526C200F4C952 /* reset1.png in Resources */,
 				CDDF1B091B5DD25500ED7F03 /* numbers.png in Resources */,
 				CDDF1B0A1B5DD25500ED7F03 /* res in Resources */,
 				CDDF1B0C1B5DD25500ED7F03 /* right-0.png in Resources */,
+				2A4403C821A526C200F4C952 /* undo1.png in Resources */,
 				CDDF1B0D1B5DD25500ED7F03 /* right-1.png in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 			);
@@ -763,6 +777,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = 835UHLRK6Z;
+				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -780,7 +795,7 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -800,6 +815,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = 835UHLRK6Z;
+				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
@@ -815,7 +831,7 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -916,6 +932,7 @@
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -945,6 +962,7 @@
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
