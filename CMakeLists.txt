@@ -129,6 +129,7 @@ set(GAME_SRC
   Classes/CampaignData.cpp
   Classes/SudokuBox.cpp 
   Classes/VictoryLayer.cpp 
+  Classes/ScreenLog.cpp 
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -147,6 +148,7 @@ set(GAME_HEADERS
   Classes/CampaignData.h
   Classes/SudokuBox.h 
   Classes/VictoryLayer.h
+  Classes/ScreenLog.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

@@ -18,6 +18,8 @@
 		2A4403C621A526C200F4C952 /* reset1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBB21A43B2500A7D644 /* reset1.png */; };
 		2A4403C721A526C200F4C952 /* undo0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC021A43B2500A7D644 /* undo0.png */; };
 		2A4403C821A526C200F4C952 /* undo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC121A43B2500A7D644 /* undo1.png */; };
+		2AB8735121A57DCF00B02E02 /* ScreenLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AB8734F21A57DCE00B02E02 /* ScreenLog.cpp */; };
+		2AB8735221A57DD300B02E02 /* ScreenLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AB8734F21A57DCE00B02E02 /* ScreenLog.cpp */; };
 		2AEFBFC321A43B2600A7D644 /* reset1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBB21A43B2500A7D644 /* reset1.png */; };
 		2AEFBFC421A43B2600A7D644 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBF21A43B2500A7D644 /* back1.png */; };
 		2AEFBFC521A43B2600A7D644 /* undo0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC021A43B2500A7D644 /* undo0.png */; };
@@ -182,6 +184,8 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2A4403C221A503E200F4C952 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		2AB8734F21A57DCE00B02E02 /* ScreenLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenLog.cpp; sourceTree = "<group>"; };
+		2AB8735021A57DCF00B02E02 /* ScreenLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenLog.h; sourceTree = "<group>"; };
 		2AEFBFBB21A43B2500A7D644 /* reset1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset1.png; sourceTree = "<group>"; };
 		2AEFBFBF21A43B2500A7D644 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
 		2AEFBFC021A43B2500A7D644 /* undo0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo0.png; sourceTree = "<group>"; };
@@ -439,6 +443,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2AB8734F21A57DCE00B02E02 /* ScreenLog.cpp */,
+				2AB8735021A57DCF00B02E02 /* ScreenLog.h */,
 				CDDF1A231B5DC71E00ED7F03 /* AppDelegate.cpp */,
 				CDDF1A241B5DC71E00ED7F03 /* AppDelegate.h */,
 				CDDF1A251B5DC71E00ED7F03 /* CampaignData.cpp */,
@@ -721,6 +727,7 @@
 				CDDF1A401B5DC71E00ED7F03 /* CampaignData.cpp in Sources */,
 				CDDF1A4A1B5DC71E00ED7F03 /* SudokuUtil.cpp in Sources */,
 				CDDF1A421B5DC71E00ED7F03 /* GameController.cpp in Sources */,
+				2AB8735121A57DCF00B02E02 /* ScreenLog.cpp in Sources */,
 				CDDF1A3F1B5DC71E00ED7F03 /* AppDelegate.cpp in Sources */,
 				CDDF1A451B5DC71E00ED7F03 /* RandomStageScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -746,6 +753,7 @@
 				CDDF1A5A1B5DCED900ED7F03 /* RandomStageScene.cpp in Sources */,
 				CDDF1A5C1B5DCED900ED7F03 /* RealTableView.cpp in Sources */,
 				CDDF1A5E1B5DCED900ED7F03 /* StageData.cpp in Sources */,
+				2AB8735221A57DD300B02E02 /* ScreenLog.cpp in Sources */,
 				CDDF1A601B5DCED900ED7F03 /* StageScene.cpp in Sources */,
 				CDDF1A621B5DCED900ED7F03 /* SudokuBox.cpp in Sources */,
 				CDDF1A641B5DCED900ED7F03 /* SudokuUtil.cpp in Sources */,
@@ -802,6 +810,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 				);
 				SDKROOT = iphoneos;
+				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
 				VALID_ARCHS = "arm64 armv7";
@@ -838,6 +847,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 				);
 				SDKROOT = iphoneos;
+				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
 				VALID_ARCHS = "arm64 armv7";
