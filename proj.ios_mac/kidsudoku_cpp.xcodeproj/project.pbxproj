@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2A13133021A7A39000D91132 /* back0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A13132E21A7A39000D91132 /* back0.png */; };
 		2A4403C321A503E200F4C952 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4403C221A503E200F4C952 /* CoreText.framework */; };
 		2A4403C421A526C200F4C952 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFBF21A43B2500A7D644 /* back1.png */; };
 		2A4403C521A526C200F4C952 /* reset0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AEFBFC221A43B2600A7D644 /* reset0.png */; };
@@ -183,6 +184,7 @@
 		1D6058910D05DD3D006BFB54 /* kidsudoku_cpp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "kidsudoku_cpp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2A13132E21A7A39000D91132 /* back0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back0.png; sourceTree = "<group>"; };
 		2A4403C221A503E200F4C952 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		2AB8734F21A57DCE00B02E02 /* ScreenLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenLog.cpp; sourceTree = "<group>"; };
 		2AB8735021A57DCF00B02E02 /* ScreenLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenLog.h; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2A13132E21A7A39000D91132 /* back0.png */,
 				2AEFBFBF21A43B2500A7D644 /* back1.png */,
 				2AEFBFC221A43B2600A7D644 /* reset0.png */,
 				2AEFBFBB21A43B2500A7D644 /* reset1.png */,
@@ -650,6 +653,7 @@
 				CDDF1ADF1B5DD17F00ED7F03 /* fonts in Resources */,
 				CDDF1AE71B5DD17F00ED7F03 /* left-1.png in Resources */,
 				CDDF1AF31B5DD17F00ED7F03 /* right-1.png in Resources */,
+				2A13133021A7A39000D91132 /* back0.png in Resources */,
 				CDDF1AD71B5DD17F00ED7F03 /* btn-stage-2.png in Resources */,
 				CDDF1AE91B5DD17F00ED7F03 /* numbers.plist in Resources */,
 				CDDF1AE31B5DD17F00ED7F03 /* fruits.png in Resources */,
